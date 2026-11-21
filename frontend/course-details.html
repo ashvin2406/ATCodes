@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>Course Details — ATCodes</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- Navigation Bar -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-xl bg-white/80 dark:bg-dark-bg/85 border-b border-slate-200/80 dark:border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
+          <i data-lucide="terminal" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-indigo-500 to-violet-600 dark:from-blue-400 dark:via-indigo-300 dark:to-violet-400 bg-clip-text text-transparent">ATCodes</span>
+          <span class="text-[11px] block font-medium text-slate-500 dark:text-slate-400">Learn. Teach. Build.</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors">Home</a>
+        <a href="courses.html" class="text-sm font-semibold text-blue-600 dark:text-blue-400">Courses</a>
+        <a href="about.html" class="text-sm font-medium text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors">About</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <button data-theme-toggle aria-label="Toggle theme" class="p-2.5 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-dark-surface transition-all">
+          <i data-lucide="moon" class="theme-toggle-icon w-5 h-5"></i>
+        </button>
+
+        <div class="h-6 w-px bg-slate-200 dark:bg-dark-border hidden sm:block"></div>
+
+        <div id="auth-actions-group" class="flex items-center gap-2">
+          <a href="login.html" class="hidden sm:inline-flex items-center text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 px-3.5 py-2 transition-colors">Sign In</a>
+          <a href="register.html" class="hidden sm:inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition-all">
+            <span>Get Started</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div class="bg-slate-100/70 dark:bg-dark-surface/30 border-b border-slate-200 dark:border-dark-border py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs flex items-center gap-2 text-slate-500 dark:text-slate-400">
+      <a href="index.html" class="hover:text-blue-600">Home</a>
+      <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+      <a href="courses.html" class="hover:text-blue-600">Courses</a>
+      <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+      <span id="breadcrumb-course-title" class="text-slate-900 dark:text-white font-medium">Course Details</span>
+    </div>
+  </div>
+
+  <!-- Course Hero Section -->
+  <section class="py-12 bg-white dark:bg-dark-surface border-b border-slate-200 dark:border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-8 space-y-4">
+          <div class="flex flex-wrap items-center gap-3">
+            <span id="course-category-badge" class="text-xs font-bold px-3 py-1 rounded-lg bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+              Programming
+            </span>
+            <span id="course-level-badge" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-dark-card text-slate-600 dark:text-slate-400">
+              Beginner
+            </span>
+            <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+              <span id="course-rating">4.9</span> (Verified Educator Curriculum)
+            </span>
+          </div>
+
+          <h1 id="course-title" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Loading Course Title...
+          </h1>
+
+          <p id="course-description" class="text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+            Loading course description and curriculum objectives...
+          </p>
+
+          <!-- Key Meta Highlights -->
+          <div class="pt-4 flex flex-wrap items-center gap-6 text-sm text-slate-600 dark:text-slate-400">
+            <div class="flex items-center gap-2">
+              <i data-lucide="layers" class="w-4 h-4 text-blue-500"></i>
+              <span id="course-chapters-count">8 Chapters</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="file-code" class="w-4 h-4 text-indigo-500"></i>
+              <span id="course-topics-count">32 In-Depth Topics</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="clock" class="w-4 h-4 text-violet-500"></i>
+              <span id="course-duration">38 Hours Total</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="users" class="w-4 h-4 text-emerald-500"></i>
+              <span id="course-students">1,400+ Students Enrolled</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Enrollment Card -->
+        <div class="lg:col-span-4">
+          <div class="p-6 rounded-2xl bg-slate-50 dark:bg-dark-card border border-slate-200 dark:border-dark-border shadow-xl space-y-6">
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Student Access</div>
+              <div class="text-2xl font-extrabold text-slate-900 dark:text-white">Structured & Free</div>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Available for all enrolled students in the ATCodes platform cohort.</p>
+            </div>
+
+            <div class="space-y-3">
+              <a href="register.html" class="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition-all">
+                <i data-lucide="user-plus" class="w-4 h-4"></i>
+                <span>Register to Start Learning</span>
+              </a>
+              <a href="student/lesson.html" class="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-slate-300 dark:border-dark-border hover:bg-white dark:hover:bg-dark-surface text-slate-800 dark:text-slate-200 font-semibold text-sm transition-all">
+                <i data-lucide="play" class="w-4 h-4"></i>
+                <span>Preview Sample Lesson</span>
+              </a>
+            </div>
+
+            <div class="pt-4 border-t border-slate-200 dark:border-dark-border text-xs text-slate-500 dark:text-slate-400 space-y-2">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                <span>All 10 ATCodes Learning Method steps included</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                <span>Hands-on code snippets with one-click copy</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                <span>Classroom challenges & capstone missions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div class="lg:col-span-8 space-y-12">
+          
+          <!-- Learning Outcomes -->
+          <div class="p-8 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border">
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2.5">
+              <i data-lucide="target" class="w-5 h-5 text-blue-600"></i>
+              What You Will Master in This Course
+            </h2>
+            <div id="learning-outcomes-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Course Curriculum / Chapter List -->
+          <div>
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white">Curriculum Outline</h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Click chapters to expand and view contained topics.</p>
+              </div>
+              <button id="expand-all-btn" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+                Expand All
+              </button>
+            </div>
+
+            <!-- Accordion Container -->
+            <div id="curriculum-chapters-container" class="space-y-4">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar / Instructor Profile -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-4">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400">Course Educator</h3>
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white font-bold text-lg flex items-center justify-center shadow-md">
+                AT
+              </div>
+              <div>
+                <div class="font-bold text-slate-900 dark:text-white">Prof. Alex Turner</div>
+                <div class="text-xs text-blue-600 dark:text-blue-400">Lead Systems & Fullstack Instructor</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">14+ Years Systems Experience</div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Specialized in high-concurrency architectures, memory optimization, and pedagogical developer instruction. Designed the 10-step ATCodes method.
+            </p>
+          </div>
+
+          <!-- Future Backend Architecture Notice -->
+          <div class="p-5 rounded-2xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/60 text-xs text-slate-600 dark:text-slate-400 space-y-2">
+            <div class="font-bold text-blue-900 dark:text-blue-300 flex items-center gap-2">
+              <i data-lucide="server" class="w-4 h-4 text-blue-600"></i>
+              API & Database Ready
+            </div>
+            <p>
+              This curriculum structure adheres to our future MongoDB <code class="font-mono text-[11px] bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded">courses</code> and <code class="font-mono text-[11px] bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded">chapters</code> schema.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-dark-surface border-t border-slate-200 dark:border-dark-border py-8 text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>&copy; 2026 ATCodes. Learn. Teach. Build.</div>
+      <div class="flex gap-4">
+        <a href="index.html" class="hover:text-blue-600">Home</a>
+        <a href="courses.html" class="hover:text-blue-600">Courses</a>
+        <a href="login.html" class="hover:text-blue-600">Login</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const courseId = urlParams.get('id');
+
+      if (!courseId) {
+        renderNotFound();
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/courses/${courseId}`);
+        const result = await res.json();
+        const course = result.data;
+
+        if (!course) {
+          renderNotFound();
+          return;
+        }
+
+        // Populate details
+        document.title = `${course.title} — ATCodes`;
+        document.getElementById('breadcrumb-course-title').textContent = course.title;
+        document.getElementById('course-category-badge').textContent = course.category || 'Computer Science';
+        document.getElementById('course-level-badge').textContent = course.level || 'All Levels';
+        document.getElementById('course-title').textContent = course.title;
+        document.getElementById('course-description').textContent = course.description || '';
+        document.getElementById('course-chapters-count').textContent = `${(course.chapters || []).length} Chapters`;
+        
+        let totalTopicsCount = 0;
+        (course.chapters || []).forEach(ch => {
+          totalTopicsCount += (ch.lessons || []).length;
+        });
+        document.getElementById('course-topics-count').textContent = `${totalTopicsCount} In-Depth Topics`;
+        document.getElementById('course-duration').textContent = `${course.duration || 'Flexible'} Total`;
+        document.getElementById('course-students').textContent = `Enrolled Cohort Access`;
+
+        // Learning outcomes
+        const outcomesContainer = document.getElementById('learning-outcomes-list');
+        const outcomes = course.learningOutcomes || [];
+        if (outcomes.length > 0) {
+          outcomesContainer.innerHTML = outcomes.map(item => `
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-dark-surface/60 border border-slate-100 dark:border-dark-border text-xs text-slate-700 dark:text-slate-300">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5"></i>
+              <span>${item}</span>
+            </div>
+          `).join('');
+        } else {
+          outcomesContainer.innerHTML = `
+            <div class="col-span-2 text-slate-400 text-xs py-2">
+              Learning outcomes will be published with the course launch.
+            </div>
+          `;
+        }
+
+        // Curriculum Chapters
+        const chaptersContainer = document.getElementById('curriculum-chapters-container');
+        const chapters = course.chapters || [];
+        if (chapters.length === 0) {
+          chaptersContainer.innerHTML = `
+            <div class="text-center py-12 bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border p-6">
+              <i data-lucide="folder-open" class="w-10 h-10 mx-auto text-slate-400 mb-2"></i>
+              <h4 class="text-sm font-bold text-slate-900 dark:text-white">Curriculum in Outline Phase</h4>
+              <p class="text-xs text-slate-500 mt-1">Chapters and topics are being formulated by the instructor.</p>
+            </div>
+          `;
+        } else {
+          chaptersContainer.innerHTML = chapters.map((ch, idx) => {
+            const lessons = ch.lessons || [];
+            return `
+            <div class="rounded-xl border border-slate-200 dark:border-dark-border bg-white dark:bg-dark-card overflow-hidden">
+              <button class="accordion-header w-full px-5 py-4 flex items-center justify-between text-left hover:bg-slate-50 dark:hover:bg-dark-surface transition-colors" onclick="ATCodesUI.toggleAccordion(this)">
+                <div class="flex items-center gap-3">
+                  <span class="w-6 h-6 rounded-md bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-bold flex items-center justify-center">
+                    ${idx + 1}
+                  </span>
+                  <span class="text-sm font-bold text-slate-900 dark:text-white">${ch.title}</span>
+                </div>
+                <div class="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+                  <span>${lessons.length} Topics</span>
+                  <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4 transition-transform duration-200 ${idx === 0 ? 'rotate-180' : ''}"></i>
+                </div>
+              </button>
+              <div class="accordion-content border-t border-slate-100 dark:border-dark-border p-3 space-y-2 ${idx === 0 ? '' : 'hidden'}">
+                ${lessons.length === 0 ? '<div class="text-center py-3 text-xs text-slate-400">Topics in progress.</div>' : ''}
+                ${lessons.map(top => `
+                  <div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-dark-surface text-xs text-slate-700 dark:text-slate-300 transition-colors">
+                    <div class="flex items-center gap-3">
+                      <i data-lucide="circle" class="w-4 h-4 text-slate-400"></i>
+                      <span class="font-medium">${top.title}</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <span class="text-slate-400">${top.estimatedDuration || '25m'}</span>
+                      <a href="student/lesson.html?id=${top._id}" class="px-2 py-1 rounded bg-blue-50 hover:bg-blue-600 hover:text-white dark:bg-dark-surface dark:hover:bg-blue-600 text-blue-600 dark:text-blue-400 font-semibold transition-colors">
+                        View
+                      </a>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+          }).join('');
+        }
+
+        if (window.lucide) window.lucide.createIcons();
+      } catch (err) {
+        console.warn('Course fetch error:', err);
+        renderNotFound();
+      }
+
+      function renderNotFound() {
+        document.getElementById('breadcrumb-course-title').textContent = 'Course Not Found';
+        document.getElementById('course-title').textContent = 'Course Not Found or Unpublished';
+        document.getElementById('course-description').textContent = 'The requested course does not exist or has not been published yet.';
+        document.getElementById('curriculum-chapters-container').innerHTML = `
+          <div class="text-center py-16 bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border p-6">
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">No Syllabus Available</h4>
+            <p class="text-xs text-slate-500 mt-1">Please return to the courses catalog to browse published offerings.</p>
+            <a href="courses.html" class="inline-block mt-4 px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold">View Courses</a>
+          </div>
+        `;
+        if (window.lucide) window.lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

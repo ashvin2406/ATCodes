@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile — ATCodes</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/custom.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/60 z-40 hidden md:hidden" onclick="ATCodesUI.toggleSidebar()"></div>
+
+  <div class="flex-1 flex overflow-hidden">
+    <!-- Student Sidebar -->
+    <aside id="app-sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-dark-surface border-r border-slate-200 dark:border-dark-border flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-200">
+      <div>
+        <div class="h-20 px-6 flex items-center justify-between border-b border-slate-100 dark:border-dark-border">
+          <a href="dashboard.html" class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-md">
+              <i data-lucide="terminal" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent">ATCodes</span>
+              <span class="text-[10px] block font-semibold text-emerald-600 dark:text-emerald-400">Student Portal</span>
+            </div>
+          </a>
+          <button class="md:hidden text-slate-400" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <nav class="px-3 py-6 space-y-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="my-courses.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>My Courses</span>
+          </a>
+          <a href="lesson.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="play-circle" class="w-4 h-4"></i>
+            <span>Lesson Viewer</span>
+          </a>
+          <a href="practice.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="code-2" class="w-4 h-4"></i>
+            <span>Practice</span>
+          </a>
+          <a href="assignments.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="file-check" class="w-4 h-4"></i>
+            <span>Assignments</span>
+          </a>
+          <a href="progress.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="trending-up" class="w-4 h-4"></i>
+            <span>My Progress</span>
+          </a>
+          <a href="profile.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 font-bold text-xs shadow-sm">
+            <i data-lucide="user" class="w-4 h-4"></i>
+            <span>Profile</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t border-slate-100 dark:border-dark-border">
+        <button onclick="ATCodesAuth.logout()" class="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-semibold">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      <header class="h-20 bg-white/80 dark:bg-dark-surface/80 backdrop-blur-md border-b border-slate-200 dark:border-dark-border px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center gap-3">
+          <button class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="menu" class="w-5 h-5"></i></button>
+          <div>
+            <h1 class="text-lg font-bold text-slate-900 dark:text-white">Student Profile & Settings</h1>
+            <p class="text-xs text-slate-500 hidden sm:block">Manage your contact details and active course enrollments.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button data-theme-toggle class="p-2.5 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 hover:bg-slate-100 dark:hover:bg-dark-card">
+            <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="p-4 sm:p-8 space-y-6 flex-1 max-w-4xl mx-auto w-full">
+        <!-- Profile Card -->
+        <div class="bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border p-6 shadow-sm space-y-6">
+          <div class="border-b border-slate-100 dark:border-dark-border pb-4 flex items-center justify-between">
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">Personal Information</h2>
+            <span id="profile-status-badge" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">
+              Active Student
+            </span>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-extrabold text-xl flex items-center justify-center shadow-lg">
+              RS
+            </div>
+            <div class="space-y-1">
+              <h3 id="profile-display-name" class="text-base font-bold text-slate-900 dark:text-white">Rohan Sharma</h3>
+              <p class="text-xs text-slate-400">rohan.sharma@example.com</p>
+              <div class="text-[11px] text-blue-600 font-medium">Cohort 2026 • 4 Enrolled Courses</div>
+            </div>
+          </div>
+
+          <form id="student-edit-form" class="space-y-4 pt-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
+                <input type="text" id="std-input-name" value="Rohan Sharma" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs font-medium">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Mobile Number</label>
+                <input type="tel" id="std-input-phone" value="+91 98765 43210" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs font-medium">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Email Address (Managed)</label>
+              <input type="email" id="std-input-email" value="rohan.sharma@example.com" disabled class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-100 dark:bg-dark-surface/60 text-xs text-slate-500 cursor-not-allowed">
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Learning Bio / Goals</label>
+              <textarea id="std-input-bio" rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs leading-relaxed">Aiming to master systems programming in C and build low-latency web backends with Node.js and MongoDB.</textarea>
+            </div>
+
+            <div class="flex justify-end">
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 shadow transition-all">
+                Update Profile
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Enrolled Tracks -->
+        <div class="bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border p-6 shadow-sm space-y-4">
+          <h2 class="text-base font-bold text-slate-900 dark:text-white">Active Curriculum Enrollments</h2>
+          
+          <div class="space-y-3 text-xs" id="profile-enrolled-courses-list">
+            <div class="py-4 text-center text-slate-400">Loading enrolled tracks...</div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await ATCodesAuth.protectRoute({ allowedRoles: ['student'] });
+      if (user) {
+        document.getElementById('profile-display-name').textContent = user.fullName;
+        document.getElementById('std-input-name').value = user.fullName;
+        document.getElementById('std-input-phone').value = user.mobile || '';
+        document.getElementById('std-input-email').value = user.email;
+        document.getElementById('profile-status-badge').textContent = user.accountStatus.toUpperCase();
+
+        try {
+          const courses = await ATCodesAPI.getStudentCourses();
+          const container = document.getElementById('profile-enrolled-courses-list');
+          if (courses && courses.length > 0) {
+            container.innerHTML = courses.map(c => `
+              <div class="p-3 rounded-xl border border-slate-100 dark:border-dark-border flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-slate-800 dark:text-slate-200">${c.title}</div>
+                  <div class="text-[11px] text-slate-400">${c.category} • ${c.duration}</div>
+                </div>
+                <span class="px-2.5 py-1 rounded bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 font-bold">${c.progress || 0}% Completed</span>
+              </div>
+            `).join('');
+          } else {
+            container.innerHTML = `<div class="py-4 text-center text-slate-400">No active enrolled tracks found.</div>`;
+          }
+        } catch (e) {
+          console.warn('Profile courses fetch error:', e);
+        }
+      }
+    });
+
+    document.getElementById('student-edit-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newName = document.getElementById('std-input-name').value;
+      document.getElementById('profile-display-name').textContent = newName;
+      ATCodesUI.showToast('Student profile details updated!', 'success');
+    });
+  </script>
+</body>
+</html>

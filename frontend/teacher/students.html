@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Roster & Progress Reports — ATCodes Teacher</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/custom.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/60 z-40 hidden md:hidden" onclick="ATCodesUI.toggleSidebar()"></div>
+
+  <div class="flex-1 flex overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="app-sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-dark-surface border-r border-slate-200 dark:border-dark-border flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-200">
+      <div>
+        <div class="h-20 px-6 flex items-center justify-between border-b border-slate-100 dark:border-dark-border">
+          <a href="dashboard.html" class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-md">
+              <i data-lucide="terminal" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent">ATCodes</span>
+              <span class="text-[10px] block font-semibold text-blue-600 dark:text-blue-400">Teacher Studio</span>
+            </div>
+          </a>
+          <button class="md:hidden text-slate-400" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <nav class="px-3 py-6 space-y-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Overview</span>
+          </a>
+          <a href="courses.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>My Courses</span>
+          </a>
+          <a href="lesson-editor.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="edit-3" class="w-4 h-4"></i>
+            <span>Lesson Editor</span>
+            <span class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold">10-STEP</span>
+          </a>
+          <a href="content-import.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="sparkles" class="w-4 h-4 text-blue-500"></i>
+            <span>Import ChatGPT</span>
+            <span class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300 font-extrabold">AI</span>
+          </a>
+          <a href="practical-library.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="code-2" class="w-4 h-4"></i>
+            <span>Practical Library</span>
+          </a>
+          <a href="students.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 font-bold text-xs shadow-sm">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>Students & Reports</span>
+          </a>
+          <a href="settings.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t border-slate-100 dark:border-dark-border">
+        <button onclick="ATCodesAuth.logout()" class="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 text-xs font-semibold">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      <header class="h-20 bg-white/80 dark:bg-dark-surface/80 backdrop-blur-md border-b border-slate-200 dark:border-dark-border px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center gap-3">
+          <button class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="menu" class="w-5 h-5"></i></button>
+          <div>
+            <h1 class="text-lg font-bold text-slate-900 dark:text-white">Student Roster & Learning Telemetry</h1>
+            <p class="text-xs text-slate-500 hidden sm:block">Manage accounts, approve registrations, enroll students, and track progress reports.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button data-theme-toggle class="p-2 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 hover:bg-slate-100 dark:hover:bg-dark-card">
+            <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="p-4 sm:p-8 space-y-6 flex-1 max-w-7xl mx-auto w-full">
+        
+        <!-- Telemetry Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border flex items-center justify-between">
+            <div>
+              <span class="text-xs font-semibold text-slate-400">Total Active Students</span>
+              <div id="stat-active-count" class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">0</div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center">
+              <i data-lucide="user-check" class="w-5 h-5"></i>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border flex items-center justify-between">
+            <div>
+              <span class="text-xs font-semibold text-slate-400">Pending Approvals</span>
+              <div id="stat-pending-count" class="text-2xl font-extrabold text-amber-600 mt-1">0</div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center">
+              <i data-lucide="clock" class="w-5 h-5"></i>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border flex items-center justify-between">
+            <div>
+              <span class="text-xs font-semibold text-slate-400">Total Course Enrollments</span>
+              <div id="stat-enrollments-count" class="text-2xl font-extrabold text-blue-600 mt-1">0</div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 flex items-center justify-center">
+              <i data-lucide="book-open" class="w-5 h-5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter and Search Bar -->
+        <div class="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between bg-white dark:bg-dark-card p-4 rounded-2xl border border-slate-200 dark:border-dark-border shadow-sm">
+          <div class="relative flex-1 max-w-md">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input 
+              type="text" 
+              id="student-search-input" 
+              placeholder="Search student name or email..." 
+              class="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs focus:ring-2 focus:ring-blue-500"
+            >
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button class="student-status-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-600 text-white" data-status="all">All Students</button>
+            <button class="student-status-btn px-3 py-1.5 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-surface" data-status="active">Active</button>
+            <button class="student-status-btn px-3 py-1.5 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-surface" data-status="pending">Pending</button>
+            <button class="student-status-btn px-3 py-1.5 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-surface" data-status="suspended">Suspended</button>
+          </div>
+        </div>
+
+        <!-- Student Table Card -->
+        <div class="bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border overflow-hidden shadow-sm">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50/70 dark:bg-dark-surface/60 border-b border-slate-200 dark:border-dark-border text-slate-400 uppercase tracking-wider font-semibold">
+                <tr>
+                  <th class="py-3.5 px-6">Student</th>
+                  <th class="py-3.5 px-4">Enrolled Courses</th>
+                  <th class="py-3.5 px-4">Curriculum Progress</th>
+                  <th class="py-3.5 px-4">Status</th>
+                  <th class="py-3.5 px-6 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="students-table-body" class="divide-y divide-slate-100 dark:divide-dark-border">
+                <tr>
+                  <td colspan="5" class="py-12 text-center text-slate-400">Loading student roster...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Detailed Student Profile & Progress Modal -->
+  <div id="student-detail-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-100 dark:border-dark-border pb-3">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Student Profile & Progress Report</h3>
+        <button onclick="ATCodesUI.closeModal('student-detail-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div id="modal-std-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-bold text-lg flex items-center justify-center shadow">
+          ST
+        </div>
+        <div>
+          <h4 id="modal-std-name" class="font-bold text-base text-slate-900 dark:text-white">Student Name</h4>
+          <p id="modal-std-email" class="text-xs text-slate-400">student@example.com</p>
+          <span id="modal-std-status" class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Active</span>
+        </div>
+      </div>
+
+      <div class="space-y-4 pt-1 text-xs">
+        <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-dark-surface space-y-2">
+          <div class="flex items-center justify-between font-bold">
+            <span class="text-slate-500">Overall Completed Lessons</span>
+            <span id="modal-std-progress" class="text-blue-600">0%</span>
+          </div>
+          <div class="w-full bg-slate-200 dark:bg-dark-border rounded-full h-2 overflow-hidden">
+            <div id="modal-std-prog-bar" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-slate-400 text-[11px] uppercase tracking-wider font-semibold">Active Course Enrollments:</span>
+            <button onclick="openEnrollModalForCurrent()" class="text-blue-600 hover:underline font-bold text-[11px] flex items-center gap-1">
+              <i data-lucide="plus-circle" class="w-3 h-3"></i> Add Course
+            </button>
+          </div>
+          <div id="modal-std-courses" class="space-y-1.5 max-h-40 overflow-y-auto">
+            <!-- Populated via script -->
+          </div>
+        </div>
+
+        <div>
+          <span class="block text-slate-400 text-[11px] uppercase tracking-wider font-semibold mb-2">Assignment Submissions & Grades:</span>
+          <div id="modal-std-submissions" class="space-y-1.5 max-h-36 overflow-y-auto">
+            <!-- Populated via script -->
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 dark:border-dark-border flex justify-end">
+        <button onclick="ATCodesUI.closeModal('student-detail-modal')" class="px-5 py-2 rounded-xl bg-slate-100 dark:bg-dark-surface text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-200">
+          Close Report
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Enrollment Manager Modal -->
+  <div id="enroll-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border w-full max-w-md rounded-3xl p-6 shadow-2xl relative space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 dark:border-dark-border pb-3">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Enroll Student in Course</h3>
+        <button onclick="ATCodesUI.closeModal('enroll-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <p class="text-xs text-slate-500">
+        Enrolling <strong id="enroll-student-name">Student</strong> into a published curriculum gives them immediate access to read topics, challenges, and assignments.
+      </p>
+
+      <div class="space-y-3 pt-1">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Select Published Course</label>
+          <select id="enroll-course-select" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs font-medium">
+            <option value="">Loading courses...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 dark:border-dark-border flex justify-end gap-2">
+        <button onclick="ATCodesUI.closeModal('enroll-modal')" class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold">Cancel</button>
+        <button onclick="submitStudentEnrollment()" class="px-5 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 shadow">Enroll Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/mock-data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    let localStudents = [];
+    let availableCourses = [];
+    let activeStatus = 'all';
+    let searchQuery = '';
+    let selectedStudentId = '';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await ATCodesAuth.protectRoute({ allowedRoles: ['teacher'] });
+
+      await Promise.all([loadStudentsFromBackend(), loadAvailableCourses()]);
+
+      // Search
+      document.getElementById('student-search-input').addEventListener('input', (e) => {
+        searchQuery = e.target.value.toLowerCase();
+        renderStudents();
+      });
+
+      // Status Filter tabs
+      document.querySelectorAll('.student-status-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.student-status-btn').forEach(b => {
+            b.classList.remove('bg-blue-600', 'text-white', 'font-bold');
+            b.classList.add('text-slate-600', 'dark:text-slate-400', 'font-medium');
+          });
+          btn.classList.add('bg-blue-600', 'text-white', 'font-bold');
+          btn.classList.remove('text-slate-600', 'dark:text-slate-400', 'font-medium');
+          activeStatus = btn.getAttribute('data-status');
+          renderStudents();
+        });
+      });
+    });
+
+    async function loadAvailableCourses() {
+      try {
+        availableCourses = await ATCodesAPI.getCourses();
+        const select = document.getElementById('enroll-course-select');
+        if (availableCourses.length > 0) {
+          select.innerHTML = availableCourses.map(c => `
+            <option value="${c._id}">${c.title} (${c.category})</option>
+          `).join('');
+        } else {
+          select.innerHTML = '<option value="">No courses available</option>';
+        }
+      } catch (e) {
+        console.warn('Courses load error:', e);
+      }
+    }
+
+    async function loadStudentsFromBackend() {
+      try {
+        const response = await ATCodesAuth.getTeacherStudents();
+        const apiStudents = response?.data?.students || [];
+
+        localStudents = apiStudents.map(s => ({
+          id: s._id || s.id,
+          name: s.fullName,
+          email: s.email,
+          avatar: s.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase(),
+          enrolledCourses: s.enrolledCourses || [],
+          enrolledCount: s.enrolledCount || 0,
+          completedLessons: s.completedLessons || 0,
+          totalLessons: s.totalLessons || 0,
+          progressPercentage: s.progressPercentage || 0,
+          registeredDate: new Date(s.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+          status: s.accountStatus
+        }));
+
+        // Telemetry Counters
+        const activeCount = localStudents.filter(s => s.status === 'active').length;
+        const pendingCount = localStudents.filter(s => s.status === 'pending').length;
+        const totalEnrollments = localStudents.reduce((acc, s) => acc + s.enrolledCount, 0);
+
+        document.getElementById('stat-active-count').textContent = activeCount;
+        document.getElementById('stat-pending-count').textContent = pendingCount;
+        document.getElementById('stat-enrollments-count').textContent = totalEnrollments;
+
+      } catch (err) {
+        console.warn('Backend students fetch fallback:', err.message);
+        localStudents = [];
+      }
+      renderStudents();
+    }
+
+    function renderStudents() {
+      const tbody = document.getElementById('students-table-body');
+      const filtered = localStudents.filter(std => {
+        const matchesStatus = activeStatus === 'all' || std.status === activeStatus;
+        const matchesQuery = std.name.toLowerCase().includes(searchQuery) || std.email.toLowerCase().includes(searchQuery);
+        return matchesStatus && matchesQuery;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-12 text-center text-slate-400">
+              No students match your filter criteria.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((std, idx) => `
+        <tr class="hover:bg-slate-50 dark:hover:bg-dark-surface/40 transition-colors">
+          <td class="py-4 px-6">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 font-bold flex items-center justify-center text-xs">
+                ${std.avatar}
+              </div>
+              <div>
+                <div class="font-bold text-slate-900 dark:text-white">${std.name}</div>
+                <div class="text-[11px] text-slate-400">${std.email}</div>
+              </div>
+            </div>
+          </td>
+          <td class="py-4 px-4 text-slate-600 dark:text-slate-300">
+            ${std.enrolledCourses.length > 0 
+              ? `<div class="font-medium">${std.enrolledCourses[0]}</div>
+                 ${std.enrolledCourses.length > 1 ? `<div class="text-[10px] text-slate-400">+ ${std.enrolledCourses.length - 1} more</div>` : ''}`
+              : `<span class="text-slate-400 italic">No courses enrolled</span>`}
+          </td>
+          <td class="py-4 px-4">
+            <div class="flex items-center gap-2">
+              <div class="w-20 bg-slate-200 dark:bg-dark-surface rounded-full h-1.5 overflow-hidden">
+                <div class="bg-blue-600 h-1.5 rounded-full" style="width: ${std.progressPercentage}%"></div>
+              </div>
+              <span class="font-bold text-slate-700 dark:text-slate-300">${std.progressPercentage}%</span>
+              <span class="text-[10px] text-slate-400">(${std.completedLessons}/${std.totalLessons})</span>
+            </div>
+          </td>
+          <td class="py-4 px-4">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${
+              std.status === 'active' 
+                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' 
+                : std.status === 'pending'
+                ? 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300'
+                : 'bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300'
+            }">
+              ${std.status.charAt(0).toUpperCase() + std.status.slice(1)}
+            </span>
+          </td>
+          <td class="py-4 px-6 text-right">
+            <div class="flex items-center justify-end gap-2">
+              <button onclick="openEnrollModal('${std.id}', '${std.name}')" class="p-1.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-100 dark:hover:bg-dark-surface transition-colors" title="Enroll in Course">
+                <i data-lucide="book-plus" class="w-4 h-4"></i>
+              </button>
+              <button onclick="viewStudentReport('${std.id}')" class="p-1.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-100 dark:hover:bg-dark-surface transition-colors" title="View Progress Report">
+                <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+              </button>
+              <button onclick="toggleStudentStatus('${std.id}', '${std.status}')" class="p-1.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-100 dark:hover:bg-dark-surface transition-colors" title="${std.status === 'active' ? 'Suspend Student' : 'Activate Student'}">
+                <i data-lucide="${std.status === 'active' ? 'user-x' : 'user-check'}" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      ATCodesUI.refreshIcons();
+    }
+
+    async function viewStudentReport(studentId) {
+      selectedStudentId = studentId;
+      try {
+        const report = await ATCodesAPI.getStudentProgressReport(studentId);
+        if (!report) return;
+
+        const std = report.student;
+        document.getElementById('modal-std-avatar').textContent = std.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        document.getElementById('modal-std-name').textContent = std.fullName;
+        document.getElementById('modal-std-email').textContent = std.email;
+        document.getElementById('modal-std-status').textContent = std.accountStatus.toUpperCase();
+        document.getElementById('modal-std-progress').textContent = `${report.overallPercentage}% (${report.grandCompletedLessons}/${report.grandTotalLessons} Lessons)`;
+        document.getElementById('modal-std-prog-bar').style.width = `${report.overallPercentage}%`;
+
+        // Courses list
+        const coursesBox = document.getElementById('modal-std-courses');
+        if (report.courses?.length > 0) {
+          coursesBox.innerHTML = report.courses.map(c => `
+            <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-dark-surface flex items-center justify-between text-xs">
+              <div>
+                <div class="font-bold text-slate-800 dark:text-slate-200">${c.title}</div>
+                <div class="text-[10px] text-slate-400">${c.completedLessons} of ${c.totalLessons} topics completed</div>
+              </div>
+              <span class="font-bold text-blue-600">${c.percentage}%</span>
+            </div>
+          `).join('');
+        } else {
+          coursesBox.innerHTML = '<div class="p-3 text-slate-400 text-center text-xs">No active enrollments.</div>';
+        }
+
+        // Submissions list
+        const subsBox = document.getElementById('modal-std-submissions');
+        if (report.submissions?.length > 0) {
+          subsBox.innerHTML = report.submissions.map(s => `
+            <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-dark-surface flex items-center justify-between text-xs">
+              <div>
+                <div class="font-bold text-slate-800 dark:text-slate-200">${s.assignmentId?.title || 'Assignment'}</div>
+                <div class="text-[10px] text-slate-400">Status: ${s.status} • Marks: ${s.marks !== null ? s.marks : 'Pending'}</div>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded ${s.status === 'reviewed' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'}">${s.status}</span>
+            </div>
+          `).join('');
+        } else {
+          subsBox.innerHTML = '<div class="p-3 text-slate-400 text-center text-xs">No assignments submitted yet.</div>';
+        }
+
+        ATCodesUI.openModal('student-detail-modal');
+        ATCodesUI.refreshIcons();
+      } catch (err) {
+        ATCodesUI.showToast(err.message, 'error');
+      }
+    }
+
+    function openEnrollModal(studentId, studentName) {
+      selectedStudentId = studentId;
+      document.getElementById('enroll-student-name').textContent = studentName;
+      ATCodesUI.openModal('enroll-modal');
+    }
+
+    function openEnrollModalForCurrent() {
+      const std = localStudents.find(s => s.id === selectedStudentId);
+      if (std) {
+        openEnrollModal(std.id, std.name);
+      }
+    }
+
+    async function submitStudentEnrollment() {
+      const courseId = document.getElementById('enroll-course-select').value;
+      if (!courseId) {
+        ATCodesUI.showToast('Please select a course to enroll.', 'error');
+        return;
+      }
+
+      try {
+        await ATCodesAPI.enrollStudent(selectedStudentId, courseId);
+        ATCodesUI.closeModal('enroll-modal');
+        ATCodesUI.showToast('Student successfully enrolled in course!', 'success');
+        await loadStudentsFromBackend();
+        if (document.getElementById('student-detail-modal').classList.contains('flex')) {
+          await viewStudentReport(selectedStudentId);
+        }
+      } catch (err) {
+        ATCodesUI.showToast(err.message || 'Enrollment failed.', 'error');
+      }
+    }
+
+    async function toggleStudentStatus(studentId, currentStatus) {
+      let targetStatus = 'active';
+      if (currentStatus === 'active') {
+        targetStatus = 'suspended';
+      } else if (currentStatus === 'suspended') {
+        targetStatus = 'active';
+      } else if (currentStatus === 'pending') {
+        targetStatus = 'active';
+      }
+
+      try {
+        await ATCodesAuth.updateStudentStatus(studentId, targetStatus);
+        ATCodesUI.showToast(`Updated student status to '${targetStatus}'.`, 'success');
+        await loadStudentsFromBackend();
+      } catch (err) {
+        ATCodesUI.showToast(err.message || 'Failed to update student status.', 'error');
+      }
+    }
+  </script>
+</body>
+</html>

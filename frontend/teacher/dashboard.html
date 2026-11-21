@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard — ATCodes</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/custom.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/60 z-40 hidden md:hidden" onclick="ATCodesUI.toggleSidebar()"></div>
+
+  <div class="flex-1 flex overflow-hidden">
+    
+    <!-- Collapsible / Responsive Sidebar -->
+    <aside id="app-sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-dark-surface border-r border-slate-200 dark:border-dark-border flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-200">
+      
+      <!-- Top Brand -->
+      <div>
+        <div class="h-20 px-6 flex items-center justify-between border-b border-slate-100 dark:border-dark-border">
+          <a href="dashboard.html" class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-md">
+              <i data-lucide="terminal" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent">ATCodes</span>
+              <span class="text-[10px] block font-semibold text-blue-600 dark:text-blue-400">Teacher Studio</span>
+            </div>
+          </a>
+          <button class="md:hidden text-slate-400 hover:text-slate-600" onclick="ATCodesUI.toggleSidebar()">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="px-3 py-6 space-y-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 font-bold text-xs shadow-sm">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Overview</span>
+          </a>
+          <a href="courses.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>My Courses</span>
+          </a>
+          <a href="lesson-editor.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="edit-3" class="w-4 h-4"></i>
+            <span>Lesson Editor</span>
+            <span class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold">10-STEP</span>
+          </a>
+          <a href="content-import.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="sparkles" class="w-4 h-4 text-blue-500"></i>
+            <span>Import ChatGPT</span>
+            <span class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300 font-extrabold">AI</span>
+          </a>
+          <a href="practical-library.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="code-2" class="w-4 h-4"></i>
+            <span>Practical Library</span>
+          </a>
+          <a href="students.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>Students</span>
+          </a>
+          <a href="settings.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Bottom Profile & Logout -->
+      <div class="p-4 border-t border-slate-100 dark:border-dark-border space-y-3">
+        <div class="flex items-center gap-3 px-2">
+          <div data-auth-avatar class="w-10 h-10 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow">
+            AT
+          </div>
+          <div class="overflow-hidden">
+            <div data-auth-name class="text-xs font-bold text-slate-900 dark:text-white truncate">Prof. Alex Turner</div>
+            <div data-auth-role class="text-[10px] text-slate-400 truncate">Lead Instructor</div>
+          </div>
+        </div>
+        <button onclick="ATCodesAuth.logout()" class="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-xs font-semibold transition-colors">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      
+      <!-- Top Navigation Header -->
+      <header class="h-20 bg-white/80 dark:bg-dark-surface/80 backdrop-blur-md border-b border-slate-200 dark:border-dark-border px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center gap-3">
+          <button class="md:hidden p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100" onclick="ATCodesUI.toggleSidebar()">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <div>
+            <h1 class="text-lg font-bold text-slate-900 dark:text-white">Teacher Overview</h1>
+            <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Monitor your curriculum, active students, and teaching progress.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Quick Import Action Button -->
+          <a href="content-import.html" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>Import ChatGPT Content</span>
+          </a>
+
+          <!-- Quick Action Button -->
+          <a href="lesson-editor.html" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-dark-border hover:bg-slate-100 dark:hover:bg-dark-card text-xs font-semibold text-slate-700 dark:text-slate-300 shadow-sm transition-all">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Create New Lesson</span>
+          </a>
+
+          <!-- Theme Toggle -->
+          <button data-theme-toggle class="p-2.5 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-dark-card transition-all">
+            <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
+          </button>
+
+          <!-- Notification Bell -->
+          <div class="relative">
+            <button class="p-2.5 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-dark-card transition-all" onclick="ATCodesUI.showToast('You have 3 student code submissions pending review', 'info')">
+              <i data-lucide="bell" class="w-4 h-4"></i>
+            </button>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-dark-surface"></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Body -->
+      <main class="p-4 sm:p-8 space-y-8 flex-1">
+        
+        <!-- Welcome Hero Banner -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-900/10 via-indigo-900/10 to-violet-900/10 border border-slate-200 dark:border-dark-border flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 text-xs font-semibold">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              ATCodes Single-Instructor Studio
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+              Welcome back, Prof. Turner!
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl">
+              Your students completed 148 topics and submitted 24 chapter missions this week.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a href="courses.html" class="px-4 py-2.5 rounded-xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border text-xs font-bold hover:border-blue-500 transition-all">
+              Manage All Courses
+            </a>
+            <a href="students.html" class="px-4 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition-all">
+              View Student Rosters
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 Statistics Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- Total Courses -->
+          <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Total Courses</span>
+              <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                <i data-lucide="book" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="text-2xl font-extrabold text-slate-900 dark:text-white">10</div>
+            <div class="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-1 flex items-center gap-1">
+              <i data-lucide="trending-up" class="w-3 h-3"></i> Fully published curriculum
+            </div>
+          </div>
+
+          <!-- Total Chapters -->
+          <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Total Chapters</span>
+              <div class="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                <i data-lucide="layers" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="text-2xl font-extrabold text-slate-900 dark:text-white">74</div>
+            <div class="text-[11px] text-slate-400 mt-1">Across 10 tech domains</div>
+          </div>
+
+          <!-- Total Topics -->
+          <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Total Topics</span>
+              <div class="w-9 h-9 rounded-xl bg-violet-50 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400 flex items-center justify-center">
+                <i data-lucide="file-text" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="text-2xl font-extrabold text-slate-900 dark:text-white">310</div>
+            <div class="text-[11px] text-blue-500 font-medium mt-1">10-step pedagogy mapped</div>
+          </div>
+
+          <!-- Total Students -->
+          <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Active Students</span>
+              <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <i data-lucide="users" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="text-2xl font-extrabold text-slate-900 dark:text-white">12,450</div>
+            <div class="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-1">+12% this month</div>
+          </div>
+        </div>
+
+        <!-- Continue Teaching + Quick Actions Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <!-- Continue Teaching Card -->
+          <div class="lg:col-span-8 p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Continue Teaching</span>
+              <span class="text-xs font-medium text-slate-400">Last edited 2 hours ago</span>
+            </div>
+
+            <div class="p-5 rounded-xl bg-slate-50 dark:bg-dark-surface border border-slate-100 dark:border-dark-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <div class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 inline-block">
+                  JavaScript Core & Asynchronous Mechanics
+                </div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">
+                  Topic: Scope Chain & The Magic of Closures
+                </h3>
+                <p class="text-xs text-slate-500">
+                  Chapter 1: Execution Context & The V8 Engine • Section 6: Let's Build Something!
+                </p>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <a href="lesson-editor.html" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all">
+                  <i data-lucide="edit" class="w-3.5 h-3.5"></i>
+                  <span>Resume Editor</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Quick stats bar -->
+            <div class="grid grid-cols-3 gap-4 pt-2 text-center text-xs">
+              <div class="p-3 rounded-xl bg-slate-50 dark:bg-dark-surface/50">
+                <div class="font-bold text-slate-900 dark:text-white">10 / 10</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Method Sections Ready</div>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-50 dark:bg-dark-surface/50">
+                <div class="font-bold text-slate-900 dark:text-white">4 Code Blocks</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Verified Snippets</div>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-50 dark:bg-dark-surface/50">
+                <div class="font-bold text-emerald-500">Published</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Live to Students</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions Panel -->
+          <div class="lg:col-span-4 p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-4">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Quick Actions</h3>
+            <div class="space-y-2.5">
+              <a href="content-import.html" class="w-full p-3 rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/50 dark:bg-blue-950/30 hover:border-blue-500 flex items-center gap-3 text-xs font-bold text-blue-700 dark:text-blue-300 transition-all">
+                <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center">
+                  <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </div>
+                <span>Import ChatGPT Content</span>
+              </a>
+
+              <a href="courses.html" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border hover:border-blue-500 dark:hover:border-blue-500 flex items-center gap-3 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-all">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/40 text-blue-600 flex items-center justify-center">
+                  <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                </div>
+                <span>Create New Course</span>
+              </a>
+
+              <a href="lesson-editor.html" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border hover:border-blue-500 dark:hover:border-blue-500 flex items-center gap-3 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-all">
+                <div class="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 flex items-center justify-center">
+                  <i data-lucide="file-plus" class="w-4 h-4"></i>
+                </div>
+                <span>Draft New 10-Step Lesson</span>
+              </a>
+
+              <a href="practical-library.html" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border hover:border-blue-500 dark:hover:border-blue-500 flex items-center gap-3 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-all">
+                <div class="w-8 h-8 rounded-lg bg-violet-50 dark:bg-violet-900/40 text-violet-600 flex items-center justify-center">
+                  <i data-lucide="code" class="w-4 h-4"></i>
+                </div>
+                <span>Add Code Snippet to Library</span>
+              </a>
+
+              <a href="students.html" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border hover:border-blue-500 dark:hover:border-blue-500 flex items-center gap-3 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-all">
+                <div class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 flex items-center justify-center">
+                  <i data-lucide="user-check" class="w-4 h-4"></i>
+                </div>
+                <span>Manage Student Roster</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity & My Courses Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <!-- My Courses Preview -->
+          <div class="lg:col-span-8 p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Active Courses Overview</h3>
+                <p class="text-xs text-slate-500">Live student cohorts enrolled</p>
+              </div>
+              <a href="courses.html" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+                View All Courses &rarr;
+              </a>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead>
+                  <tr class="border-b border-slate-100 dark:border-dark-border text-slate-400 uppercase tracking-wider font-semibold">
+                    <th class="pb-3">Course Name</th>
+                    <th class="pb-3">Chapters</th>
+                    <th class="pb-3">Students</th>
+                    <th class="pb-3">Status</th>
+                    <th class="pb-3 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="teacher-courses-preview-tbody" class="divide-y divide-slate-100 dark:divide-dark-border">
+                  <!-- Populated via script -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Recent Activity Log -->
+          <div class="lg:col-span-4 p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-4">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Recent Platform Activity</h3>
+            
+            <div class="space-y-4 text-xs">
+              <div class="flex items-start gap-3">
+                <div class="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <div class="font-bold text-slate-900 dark:text-white">Rohan Sharma completed Topic</div>
+                  <p class="text-slate-500 text-[11px]">Scope Chain & The Magic of Closures</p>
+                  <span class="text-[10px] text-slate-400">15 mins ago</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-950 text-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <i data-lucide="file-text" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <div class="font-bold text-slate-900 dark:text-white">Assignment Submitted</div>
+                  <p class="text-slate-500 text-[11px]">Ananya Verma submitted "Vector in C with Realloc"</p>
+                  <span class="text-[10px] text-slate-400">1 hour ago</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="w-7 h-7 rounded-lg bg-violet-100 dark:bg-violet-950 text-violet-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <i data-lucide="user-plus" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <div class="font-bold text-slate-900 dark:text-white">New Student Enrolled</div>
+                  <p class="text-slate-500 text-[11px]">Devin Vance joined Node.js Backend</p>
+                  <span class="text-[10px] text-slate-400">3 hours ago</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950 text-amber-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <i data-lucide="edit" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <div class="font-bold text-slate-900 dark:text-white">Curriculum Updated</div>
+                  <p class="text-slate-500 text-[11px]">Updated Blackboard notes for Closures</p>
+                  <span class="text-[10px] text-slate-400">Yesterday</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- Dashboard Footer -->
+      <footer class="py-4 px-8 border-t border-slate-200 dark:border-dark-border text-xs text-slate-400 flex items-center justify-between">
+        <div>ATCodes Teacher Studio • Phase 1 Frontend Active</div>
+        <div>Ready for Express.js / MongoDB API</div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/mock-data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Enforce real backend authentication & teacher role check
+      const user = await ATCodesAuth.protectRoute({ allowedRoles: ['teacher'] });
+      if (!user) return;
+
+      let courses = [];
+      try {
+        courses = await window.ATCodesAPI.getCourses();
+      } catch (err) {
+        console.warn('API error, falling back to mock courses:', err);
+        courses = window.ATCodesDB.getCourses().map(c => ({ ...c, status: 'published' }));
+      }
+
+      // Update Course Count Card
+      const courseCountEl = document.querySelector('.text-2xl.font-extrabold.text-slate-900');
+      if (courseCountEl && courses.length > 0) {
+        courseCountEl.textContent = courses.length;
+      }
+
+      const tbody = document.getElementById('teacher-courses-preview-tbody');
+      if (tbody) {
+        if (courses.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="5" class="py-8 text-center text-xs text-slate-400">
+                No courses yet. <a href="courses.html" class="text-blue-600 font-bold hover:underline">Create your first course</a>
+              </td>
+            </tr>
+          `;
+        } else {
+          tbody.innerHTML = courses.slice(0, 5).map(course => {
+            const courseId = course._id || course.id;
+            const isPub = (course.status || '').toLowerCase() === 'published';
+            return `
+            <tr class="hover:bg-slate-50 dark:hover:bg-dark-surface/50 transition-colors">
+              <td class="py-3.5 pr-4">
+                <div class="font-bold text-slate-900 dark:text-white">${course.title}</div>
+                <div class="text-[11px] text-slate-400">${course.category || 'General'}</div>
+              </td>
+              <td class="py-3.5 pr-4 font-medium">${course.totalChapters !== undefined ? course.totalChapters : (course.chapters ? course.chapters.length : 0)} ch</td>
+              <td class="py-3.5 pr-4 font-medium">${course.studentsCount || 0}</td>
+              <td class="py-3.5 pr-4">
+                <span class="px-2 py-0.5 rounded-full ${isPub ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300'} font-semibold text-[10px]">
+                  ${isPub ? 'Published' : 'Draft'}
+                </span>
+              </td>
+              <td class="py-3.5 text-right">
+                <a href="course-details.html?id=${courseId}" class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 dark:bg-dark-card dark:text-blue-400 font-semibold hover:bg-blue-600 hover:text-white transition-all">
+                  Manage
+                </a>
+              </td>
+            </tr>
+          `;
+          }).join('');
+        }
+      }
+
+      ATCodesUI.refreshIcons();
+    });
+  </script>
+</body>
+</html>

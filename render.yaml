@@ -1,0 +1,37 @@
+services:
+  # 1. ATCodes Backend Express Web Service
+  - type: web
+    name: atcodes-backend
+    env: node
+    plan: free
+    buildCommand: "cd backend && npm install --production"
+    startCommand: "node backend/server.js"
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://atcodes.in
+      - key: COOKIE_DOMAIN
+        value: .atcodes.in
+      - key: COOKIE_SAME_SITE
+        value: lax
+      - key: CORS_ORIGINS
+        value: https://atcodes.in,https://www.atcodes.in
+
+  # 2. ATCodes Frontend Static Site
+  - type: web
+    name: atcodes-frontend
+    env: static
+    plan: free
+    staticPublishPath: frontend
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /404.html

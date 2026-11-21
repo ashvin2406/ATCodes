@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practical Library — ATCodes Teacher</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/custom.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/60 z-40 hidden md:hidden" onclick="ATCodesUI.toggleSidebar()"></div>
+
+  <div class="flex-1 flex overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="app-sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-dark-surface border-r border-slate-200 dark:border-dark-border flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-200">
+      <div>
+        <div class="h-20 px-6 flex items-center justify-between border-b border-slate-100 dark:border-dark-border">
+          <a href="dashboard.html" class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-md">
+              <i data-lucide="terminal" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent">ATCodes</span>
+              <span class="text-[10px] block font-semibold text-blue-600 dark:text-blue-400">Teacher Studio</span>
+            </div>
+          </a>
+          <button class="md:hidden text-slate-400" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <nav class="px-3 py-6 space-y-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Overview</span>
+          </a>
+          <a href="courses.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>My Courses</span>
+          </a>
+          <a href="lesson-editor.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="edit-3" class="w-4 h-4"></i>
+            <span>Lesson Editor</span>
+            <span class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold">10-STEP</span>
+          </a>
+          <a href="content-import.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="sparkles" class="w-4 h-4 text-blue-500"></i>
+            <span>Import ChatGPT</span>
+            <span class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300 font-extrabold">AI</span>
+          </a>
+          <a href="practical-library.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 font-bold text-xs shadow-sm">
+            <i data-lucide="code-2" class="w-4 h-4"></i>
+            <span>Practical Library</span>
+          </a>
+          <a href="students.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>Students</span>
+          </a>
+          <a href="settings.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t border-slate-100 dark:border-dark-border">
+        <a href="../login.html" class="flex items-center gap-2 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-semibold">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      <header class="h-20 bg-white/80 dark:bg-dark-surface/80 backdrop-blur-md border-b border-slate-200 dark:border-dark-border px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center gap-3">
+          <button class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="menu" class="w-5 h-5"></i></button>
+          <div>
+            <h1 class="text-lg font-bold text-slate-900 dark:text-white">Practical Code Library</h1>
+            <p class="text-xs text-slate-500 hidden sm:block">Verified teaching code snippets, memory patterns, and algorithm templates.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="openAddSnippetModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Add Snippet</span>
+          </button>
+          <button data-theme-toggle class="p-2 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 hover:bg-slate-100 dark:hover:bg-dark-card">
+            <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="p-4 sm:p-8 space-y-6 flex-1 max-w-6xl mx-auto w-full">
+        <!-- Search and Filter Bar -->
+        <div class="space-y-4 bg-white dark:bg-dark-card p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-dark-border shadow-sm">
+          <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input 
+              type="text" 
+              id="snippet-search-input" 
+              placeholder="Search snippet title, topic, or keyword..."
+              class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs focus:ring-2 focus:ring-blue-500"
+            >
+          </div>
+
+          <!-- Language Filters -->
+          <div class="flex flex-wrap items-center gap-2 pt-1">
+            <span class="text-xs font-semibold text-slate-400 mr-2">Language:</span>
+            <button class="lang-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white" data-lang="All">All</button>
+            <button class="lang-filter-btn px-3 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-surface" data-lang="C">C</button>
+            <button class="lang-filter-btn px-3 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-surface" data-lang="C++">C++</button>
+            <button class="lang-filter-btn px-3 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-surface" data-lang="JavaScript">JavaScript</button>
+            <button class="lang-filter-btn px-3 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-surface" data-lang="Node.js">Node.js</button>
+            <button class="lang-filter-btn px-3 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-surface" data-lang="SQL">SQL</button>
+            <button class="lang-filter-btn px-3 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-surface" data-lang="MongoDB">MongoDB</button>
+          </div>
+        </div>
+
+        <!-- Snippets Feed -->
+        <div id="snippets-feed-container" class="space-y-6">
+          <!-- Populated via script -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Add Snippet Modal -->
+  <div id="add-snippet-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Add Code Snippet to Library</h3>
+        <button onclick="ATCodesUI.closeModal('add-snippet-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form id="add-snippet-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Snippet Title</label>
+          <input type="text" id="snip-form-title" required placeholder="e.g. In-place QuickSort Partition with Median of 3" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Language</label>
+            <select id="snip-form-lang" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs">
+              <option value="C">C</option>
+              <option value="C++">C++</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="Node.js">Node.js</option>
+              <option value="SQL">SQL</option>
+              <option value="MongoDB">MongoDB</option>
+              <option value="HTML">HTML</option>
+              <option value="CSS">CSS</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Associated Topic</label>
+            <input type="text" id="snip-form-topic" required placeholder="e.g. Memory & Algorithms" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Short Explanation</label>
+          <textarea id="snip-form-exp" rows="2" required placeholder="Explain why this snippet matters..." class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Code Block</label>
+          <textarea id="snip-form-code" rows="6" required placeholder="// Paste source code here..." class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-900 text-slate-200 font-mono text-xs"></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" onclick="ATCodesUI.closeModal('add-snippet-modal')" class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold shadow-md">Add to Library</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/mock-data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    let realSnippets = [];
+    let activeLang = 'All';
+    let searchQuery = '';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Protect route for teachers
+      const user = await window.ATCodesAuth.protectRoute({ allowedRoles: ['teacher'] });
+      if (!user) return;
+
+      // Update sidebar teacher details
+      const userInitials = document.querySelector('.p-4 .w-10');
+      const userName = document.querySelector('.p-4 .text-xs.font-bold');
+      if (userInitials && user.fullName) {
+        userInitials.textContent = user.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      }
+      if (userName && user.fullName) {
+        userName.textContent = user.fullName;
+      }
+
+      // Logout handler
+      const logoutBtn = document.querySelector('aside a[href="../login.html"]');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          await window.ATCodesAuth.logout();
+        });
+      }
+
+      await loadSnippets();
+
+      // Search input
+      document.getElementById('snippet-search-input').addEventListener('input', (e) => {
+        searchQuery = e.target.value.toLowerCase().trim();
+        renderSnippets();
+      });
+
+      // Filter buttons
+      document.querySelectorAll('.lang-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.lang-filter-btn').forEach(b => {
+            b.classList.remove('bg-blue-600', 'text-white', 'font-bold');
+            b.classList.add('text-slate-600', 'dark:text-slate-400', 'font-medium');
+          });
+          btn.classList.add('bg-blue-600', 'text-white', 'font-bold');
+          btn.classList.remove('text-slate-600', 'dark:text-slate-400', 'font-medium');
+          activeLang = btn.getAttribute('data-lang');
+          renderSnippets();
+        });
+      });
+
+      // Form submit: Add Snippet
+      document.getElementById('add-snippet-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const title = document.getElementById('snip-form-title').value.trim();
+        const lang = document.getElementById('snip-form-lang').value;
+        const topic = document.getElementById('snip-form-topic').value.trim();
+        const exp = document.getElementById('snip-form-exp').value.trim();
+        const code = document.getElementById('snip-form-code').value;
+
+        try {
+          await window.ATCodesAPI.createPractical({
+            title,
+            language: lang,
+            topic,
+            explanation: exp,
+            code
+          });
+          ATCodesUI.closeModal('add-snippet-modal');
+          ATCodesUI.showToast(`Snippet "${title}" added to database!`, 'success');
+          await loadSnippets();
+        } catch (err) {
+          ATCodesUI.showToast(err.message || 'Failed to save snippet', 'error');
+        }
+      });
+    });
+
+    async function loadSnippets() {
+      const container = document.getElementById('snippets-feed-container');
+      container.innerHTML = `
+        <div class="text-center py-12">
+          <div class="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <p class="text-xs text-slate-500 mt-2 font-semibold">Loading snippets from database...</p>
+        </div>
+      `;
+
+      try {
+        realSnippets = await window.ATCodesAPI.getPracticals();
+      } catch (err) {
+        console.warn('API error, falling back to mock snippets:', err);
+        realSnippets = window.ATCodesDB.getSnippets();
+      }
+
+      renderSnippets();
+    }
+
+    function renderSnippets() {
+      const container = document.getElementById('snippets-feed-container');
+      const filtered = realSnippets.filter(s => {
+        const matchesLang = activeLang === 'All' || (s.language || '').toLowerCase() === activeLang.toLowerCase();
+        const matchesSearch = (s.title || '').toLowerCase().includes(searchQuery) ||
+                              (s.topic || '').toLowerCase().includes(searchQuery) ||
+                              (s.explanation || '').toLowerCase().includes(searchQuery) ||
+                              (s.code || '').toLowerCase().includes(searchQuery);
+        return matchesLang && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border">
+            <i data-lucide="code" class="w-8 h-8 mx-auto text-slate-400 mb-2"></i>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">No snippets match query</h4>
+            <p class="text-xs text-slate-500 mt-1">Try another search term or click "+ Add Snippet".</p>
+          </div>
+        `;
+        ATCodesUI.refreshIcons();
+        return;
+      }
+
+      container.innerHTML = filtered.map((snip, idx) => {
+        const snipId = snip._id || snip.id;
+        return `
+        <div class="rounded-2xl border border-slate-200 dark:border-dark-border bg-white dark:bg-dark-card overflow-hidden shadow-sm">
+          <div class="p-5 border-b border-slate-100 dark:border-dark-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold px-2.5 py-0.5 rounded-md bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
+                  ${snip.language}
+                </span>
+                <span class="text-xs text-slate-400 font-medium">• ${snip.topic || 'General Practice'}</span>
+              </div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">${snip.title}</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">${snip.explanation}</p>
+            </div>
+
+            <div class="flex items-center gap-2 self-start sm:self-auto">
+              <button onclick="copySnippetCode(${idx}, this)" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-dark-border hover:bg-slate-50 dark:hover:bg-dark-surface text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>Copy Code</span>
+              </button>
+              ${snipId ? `
+              <button onclick="deleteSnippetAction('${snipId}')" class="p-1.5 text-slate-400 hover:text-rose-600 transition-colors" title="Delete Snippet">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+              ` : ''}
+            </div>
+          </div>
+
+          <!-- Code Window -->
+          <div class="bg-slate-950 p-4 overflow-x-auto text-xs font-mono text-slate-200 leading-relaxed">
+            <pre id="snippet-code-${idx}"><code>${escapeHtml(snip.code)}</code></pre>
+          </div>
+        </div>
+      `;
+      }).join('');
+
+      ATCodesUI.refreshIcons();
+    }
+
+    function copySnippetCode(idx, btn) {
+      const el = document.getElementById(`snippet-code-${idx}`);
+      if (el) {
+        ATCodesUI.copyToClipboard(el.innerText || el.textContent, btn);
+      }
+    }
+
+    async function deleteSnippetAction(snipId) {
+      if (confirm('Delete this code snippet from the library?')) {
+        try {
+          await window.ATCodesAPI.deletePractical(snipId);
+          ATCodesUI.showToast('Snippet removed from library', 'info');
+          await loadSnippets();
+        } catch (err) {
+          ATCodesUI.showToast(err.message || 'Failed to delete snippet', 'error');
+        }
+      }
+    }
+
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return (text || '').replace(/[&<>"']/g, m => map[m]);
+    }
+
+    function openAddSnippetModal() {
+      document.getElementById('snip-form-title').value = '';
+      document.getElementById('snip-form-topic').value = '';
+      document.getElementById('snip-form-exp').value = '';
+      document.getElementById('snip-form-code').value = '';
+      ATCodesUI.openModal('add-snippet-modal');
+    }
+  </script>
+</body>
+</html>

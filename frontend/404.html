@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>404 — Page Not Found | ATCodes</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text min-h-screen flex flex-col justify-between transition-colors duration-200">
+
+  <!-- Header -->
+  <header class="h-20 border-b border-slate-200 dark:border-dark-border px-6 flex items-center justify-between max-w-7xl mx-auto w-full">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-md">
+        <i data-lucide="terminal" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">ATCodes</span>
+        <span class="text-[10px] block font-semibold text-slate-400">Learn. Teach. Build.</span>
+      </div>
+    </a>
+    <button data-theme-toggle class="p-2.5 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 hover:bg-slate-100 dark:hover:bg-dark-card">
+      <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
+    </button>
+  </header>
+
+  <!-- Error Hero Section -->
+  <main class="flex-1 flex items-center justify-center p-6">
+    <div class="text-center max-w-lg space-y-6">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-blue-600 dark:text-blue-400 mx-auto shadow-inner">
+        <i data-lucide="file-question" class="w-10 h-10"></i>
+      </div>
+      <div class="space-y-2">
+        <div class="text-xs font-mono font-bold tracking-widest uppercase text-blue-600">Error 404 • Resource Not Found</div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Page Disappeared from the Stack</h1>
+        <p class="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+          The requested route, lesson or document could not be found on the server. It may have been moved, deleted, or never existed in the curriculum hierarchy.
+        </p>
+      </div>
+
+      <div class="pt-4 flex flex-wrap items-center justify-center gap-3">
+        <a href="index.html" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span>Return to Homepage</span>
+        </a>
+        <a href="courses.html" class="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border hover:bg-slate-100 dark:hover:bg-dark-surface font-semibold text-xs text-slate-700 dark:text-slate-300 transition-all flex items-center gap-2">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span>Browse Courses</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4 border-t border-slate-200 dark:border-dark-border text-center text-xs text-slate-400">
+    ATCodes Platform &copy; 2026. All rights reserved.
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      ATCodesUI.refreshIcons();
+    });
+  </script>
+</body>
+</html>

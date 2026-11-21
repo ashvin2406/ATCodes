@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "name": "atcodes-frontend",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    {
+      "src": "/robots.txt",
+      "dest": "/frontend/robots.txt"
+    },
+    {
+      "src": "/sitemap.xml",
+      "dest": "/frontend/sitemap.xml"
+    },
+    {
+      "src": "/favicon.svg",
+      "dest": "/frontend/favicon.svg"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ]
+}

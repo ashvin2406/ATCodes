@@ -1,0 +1,16 @@
+{
+  "name": "atcodes-platform",
+  "version": "2.0.0",
+  "description": "ATCodes — Learn. Teach. Build. Phase 2 Backend & Frontend Platform",
+  "scripts": {
+    "install:all": "cd backend && npm install",
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "seed:teacher": "cd backend && npm run seed:teacher",
+    "seed:content": "cd backend && npm run seed:content",
+    "test": "cd backend && npm test"
+  },
+  "keywords": ["atcodes", "education", "mern", "learning-platform"],
+  "author": "ATCodes Team",
+  "license": "ISC"
+}

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson Editor — ATCodes Teacher</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/custom.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/60 z-40 hidden md:hidden" onclick="ATCodesUI.toggleSidebar()"></div>
+
+  <div class="flex-1 flex overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="app-sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-dark-surface border-r border-slate-200 dark:border-dark-border flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-200">
+      <div>
+        <div class="h-20 px-6 flex items-center justify-between border-b border-slate-100 dark:border-dark-border">
+          <a href="dashboard.html" class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-md">
+              <i data-lucide="terminal" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent">ATCodes</span>
+              <span class="text-[10px] block font-semibold text-blue-600 dark:text-blue-400">Teacher Studio</span>
+            </div>
+          </a>
+          <button class="md:hidden text-slate-400" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <nav class="px-3 py-6 space-y-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Overview</span>
+          </a>
+          <a href="courses.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>My Courses</span>
+          </a>
+          <a href="lesson-editor.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 font-bold text-xs shadow-sm">
+            <i data-lucide="edit-3" class="w-4 h-4"></i>
+            <span>Lesson Editor</span>
+            <span class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold">10-STEP</span>
+          </a>
+          <a href="content-import.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="sparkles" class="w-4 h-4 text-blue-500"></i>
+            <span>Import ChatGPT</span>
+            <span class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300 font-extrabold">AI</span>
+          </a>
+          <a href="practical-library.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="code-2" class="w-4 h-4"></i>
+            <span>Practical Library</span>
+          </a>
+          <a href="students.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>Students</span>
+          </a>
+          <a href="settings.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t border-slate-100 dark:border-dark-border">
+        <a href="../login.html" class="flex items-center gap-2 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-semibold">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Editor Canvas -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      
+      <!-- Top Action Bar -->
+      <header class="h-20 bg-white/90 dark:bg-dark-surface/90 backdrop-blur-md border-b border-slate-200 dark:border-dark-border px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center gap-3 min-w-0">
+          <button class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="menu" class="w-5 h-5"></i></button>
+          <div class="truncate">
+            <div class="flex items-center gap-2 text-xs text-slate-400 truncate">
+              <span>JavaScript Core</span>
+              <span>/</span>
+              <span>Chapter 1</span>
+              <span>/</span>
+              <span id="editor-header-topic" class="text-blue-600 font-semibold truncate">Closures & Lexical Scopes</span>
+            </div>
+            <div class="flex items-center gap-2 mt-0.5">
+              <span id="editor-status-badge" class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold">
+                ● Published
+              </span>
+              <span class="text-xs text-slate-400 hidden sm:inline">• All 10 method steps verified</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <a href="content-import.html" class="px-3 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 flex items-center gap-1.5 transition-all" title="Import ChatGPT Content">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">Import ChatGPT</span>
+          </a>
+
+          <button onclick="saveDraft()" class="px-3.5 py-2 rounded-xl border border-slate-200 dark:border-dark-border hover:bg-slate-100 dark:hover:bg-dark-card text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 transition-all">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">Save Draft</span>
+          </button>
+
+          <button onclick="openPreviewModal()" class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-dark-card hover:bg-slate-200 dark:hover:bg-dark-border text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 transition-all">
+            <i data-lucide="eye" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">Preview</span>
+          </button>
+
+          <button onclick="publishLesson()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 flex items-center gap-1.5 transition-all">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Publish Lesson</span>
+          </button>
+
+          <button data-theme-toggle class="p-2 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 hover:bg-slate-100 dark:hover:bg-dark-card">
+            <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Editor Content -->
+      <main class="p-4 sm:p-8 max-w-5xl mx-auto w-full space-y-8 flex-1">
+        
+        <!-- Metadata Config Card -->
+        <div class="p-6 rounded-3xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 dark:border-dark-border pb-3">
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Lesson Metadata</div>
+            <span class="text-xs font-mono text-slate-400">Lesson ID: js-top-3</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Course</label>
+              <input type="text" id="editor-course-input" value="JavaScript Core & Asynchronous Mechanics" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs font-medium">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Chapter</label>
+              <input type="text" id="editor-chapter-input" value="Chapter 1: Execution Context & The V8 Engine" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs font-medium">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Topic Title</label>
+              <input type="text" id="editor-topic-input" value="Scope Chain & The Magic of Closures" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs font-bold text-blue-600 dark:text-blue-400">
+            </div>
+          </div>
+        </div>
+
+        <!-- 10 ATCODES METHOD SECTIONS -->
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="compass" class="w-5 h-5 text-blue-600"></i>
+              The 10-Step ATCodes Learning Sequence
+            </h2>
+            <span class="text-xs text-slate-400">All 10 steps required for complete pedagogical flow</span>
+          </div>
+
+          <!-- Section 1: Curiosity -->
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-bold flex items-center justify-center">01</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">1. Curiosity</h3>
+                  <p class="text-[11px] text-slate-400">The provocative question or mystery that engages the learner.</p>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950 text-blue-600 font-semibold">Hook</span>
+            </div>
+            <textarea id="sec-curiosity" rows="3" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-xs text-slate-800 dark:text-slate-200 leading-relaxed focus:ring-2 focus:ring-blue-500">What happens when a function finishes executing, disappears from the call stack, and yet a nested child function still remembers and modifies the dead function's variables? In C, doing this would point to garbage memory or trigger a segmentation fault. Why does JavaScript keep variables alive in memory even after their parent has ended?</textarea>
+          </div>
+
+          <!-- Section 2: Concept Discovery -->
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 text-xs font-bold flex items-center justify-center">02</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">2. Concept Discovery</h3>
+                  <p class="text-[11px] text-slate-400">Formal technical definition, core terms, and concise explanation.</p>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-600 font-semibold">Theory</span>
+            </div>
+            <textarea id="sec-concept" rows="3" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-xs text-slate-800 dark:text-slate-200 leading-relaxed focus:ring-2 focus:ring-blue-500">A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). In JavaScript, closures are created every time a function is created, at function creation time.</textarea>
+            
+            <div class="pt-2">
+              <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Concept Code Demonstration</label>
+              <textarea id="sec-concept-code" rows="6" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-900 text-slate-200 font-mono text-xs focus:ring-2 focus:ring-blue-500">function createCounter(initialValue = 0) {
+  let count = initialValue; // Private state kept alive by closure
+  return {
+    increment: () => ++count,
+    decrement: () => --count,
+    getValue: () => count
+  };
+}</textarea>
+            </div>
+          </div>
+
+          <!-- Section 3: Real-Life Connection -->
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 text-xs font-bold flex items-center justify-center">03</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">3. Real-Life Connection</h3>
+                  <p class="text-[11px] text-slate-400">Relatable real-world metaphor or mental model for retention.</p>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-violet-50 dark:bg-violet-950 text-violet-600 font-semibold">Analogy</span>
+            </div>
+            <textarea id="sec-analogy" rows="3" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-xs text-slate-800 dark:text-slate-200 leading-relaxed focus:ring-2 focus:ring-blue-500">Imagine checking into a hotel. The receptionist programs an electronic keycard. Even after the receptionist leaves their shift and goes home (parent function returns), your keycard still retains cryptographic authorization to open room 402.</textarea>
+          </div>
+
+          <!-- Section 4: Teacher's Blackboard -->
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center justify-center">04</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">4. Teacher's Blackboard</h3>
+                  <p class="text-[11px] text-slate-400">Architectural diagrams, bulleted core laws, and classroom chalkboard notes.</p>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-600 font-semibold">Rules</span>
+            </div>
+            <textarea id="sec-blackboard" rows="4" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-xs text-slate-800 dark:text-slate-200 leading-relaxed focus:ring-2 focus:ring-blue-500">• Rule 1: Functions in JS carry a hidden [[Environment]] property pointing to their parent Lexical Scope.
+• Rule 2: Garbage Collection (Mark-and-Sweep) NEVER purges an object reachable via an active reference chain.
+• Rule 3: Closures preserve references to memory addresses, NOT snapshot copies of values.</textarea>
+          </div>
+
+          <!-- Section 5: Behind the Scenes -->
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300 text-xs font-bold flex items-center justify-center">05</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">5. Behind the Scenes</h3>
+                  <p class="text-[11px] text-slate-400">V8 engine, compiler execution, heap vs stack memory, and internal low-level mechanics.</p>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-50 dark:bg-cyan-950 text-cyan-600 font-semibold">Under The Hood</span>
+            </div>
+            <textarea id="sec-behind" rows="3" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-xs text-slate-800 dark:text-slate-200 leading-relaxed focus:ring-2 focus:ring-blue-500">Normally, local variables exist on the execution stack frame. When V8's parser detects an inner function referencing an outer variable, it moves that variable from the ephemeral stack frame into a specialized "Closure Scope" allocated on the Heap.</textarea>
+          </div>
+
+          <!-- Section 6: Let's Build Something! -->
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 text-xs font-bold flex items-center justify-center">06</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">6. Let's Build Something!</h3>
+                  <p class="text-[11px] text-slate-400">A realistic, non-trivial, production-level code implementation.</p>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950 text-amber-600 font-semibold">Practical Code</span>
+            </div>
+            <textarea id="sec-build-desc" rows="2" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-xs text-slate-800 dark:text-slate-200 leading-relaxed">Here is a production sliding-window API Rate Limiter using internal closure state:</textarea>
+            <textarea id="sec-build-code" rows="8" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-900 text-slate-200 font-mono text-xs focus:ring-2 focus:ring-blue-500">function createRateLimiter(limit, windowMs) {
+  let requestTimestamps = [];
+  return function (userId) {
+    const now = Date.now();
+    requestTimestamps = requestTimestamps.filter(t => now - t < windowMs);
+    if (requestTimestamps.length >= limit) {
+      return { allowed: false, remaining: 0 };
+    }
+    requestTimestamps.push(now);
+    return { allowed: true, remaining: limit - requestTimestamps.length };
+  };
+}</textarea>
+          </div>
+
+          <!-- Section 7: Think Like a Developer -->
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300 text-xs font-bold flex items-center justify-center">07</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">7. Think Like a Developer</h3>
+                  <p class="text-[11px] text-slate-400">Engineering trade-offs, potential memory leaks, and architectural caveats.</p>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-orange-50 dark:bg-orange-950 text-orange-600 font-semibold">Senior Mindset</span>
+            </div>
+            <textarea id="sec-think" rows="3" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-xs text-slate-800 dark:text-slate-200 leading-relaxed focus:ring-2 focus:ring-blue-500">Because closures keep heap memory alive, holding onto a closure referencing heavy buffers (like raw video frames or full DOM trees) prevents garbage collection. Always nullify event handlers upon unmounting.</textarea>
+          </div>
+
+          <!-- Section 8: Classroom Challenge -->
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300 text-xs font-bold flex items-center justify-center">08</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">8. Classroom Challenge</h3>
+                  <p class="text-[11px] text-slate-400">Interactive live problem or bug puzzle for students to solve in class.</p>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-rose-50 dark:bg-rose-950 text-rose-600 font-semibold">Challenge</span>
+            </div>
+            <textarea id="sec-challenge-q" rows="2" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-xs text-slate-800 dark:text-slate-200 leading-relaxed">What does the following classic loop print, and why does replacing `var` with `let` fix the behavior?</textarea>
+            <textarea id="sec-challenge-code" rows="5" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-900 text-slate-200 font-mono text-xs">for (var i = 1; i <= 3; i++) {
+  setTimeout(() => {
+    console.log('Value: ' + i);
+  }, 1000);
+}</textarea>
+          </div>
+
+          <!-- Section 9: Real Developer Knowledge -->
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300 text-xs font-bold flex items-center justify-center">09</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">9. Real Developer Knowledge</h3>
+                  <p class="text-[11px] text-slate-400">How major production frameworks (React, Express, Redux) utilize this concept.</p>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-teal-50 dark:bg-teal-950 text-teal-600 font-semibold">Industry</span>
+            </div>
+            <textarea id="sec-industry" rows="3" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-xs text-slate-800 dark:text-slate-200 leading-relaxed focus:ring-2 focus:ring-blue-500">React Hooks (such as useState and useEffect) are powered entirely by JavaScript closures! When your React component function re-renders, it references state values maintained in an internal fiber array indexed by hook order.</textarea>
+          </div>
+
+          <!-- Section 10: Chapter Mission -->
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-blue-600 text-white text-xs font-bold flex items-center justify-center">10</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">10. Chapter Mission</h3>
+                  <p class="text-[11px] text-slate-400">Capstone milestone assignment with grading rubric.</p>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-bold">Capstone</span>
+            </div>
+            <textarea id="sec-mission" rows="3" class="w-full p-3 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-xs text-slate-800 dark:text-slate-200 leading-relaxed focus:ring-2 focus:ring-blue-500">Implement a memoize(fn) higher-order function that uses a closure cache map to store return values of expensive computations. Test it with a Fibonacci function and measure the performance speedup.</textarea>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Preview Modal -->
+  <div id="preview-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border w-full max-w-3xl rounded-3xl p-6 sm:p-8 shadow-2xl relative max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-slate-100 dark:border-dark-border pb-4 mb-4">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-blue-600">Student Preview Mode</span>
+          <h3 id="preview-modal-title" class="text-lg font-bold text-slate-900 dark:text-white">Scope Chain & The Magic of Closures</h3>
+        </div>
+        <button onclick="ATCodesUI.closeModal('preview-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div id="preview-modal-body" class="overflow-y-auto space-y-6 text-xs text-slate-700 dark:text-slate-300 pr-2">
+        <!-- Rendered live via script -->
+      </div>
+
+      <div class="pt-4 border-t border-slate-100 dark:border-dark-border flex justify-end">
+        <button onclick="ATCodesUI.closeModal('preview-modal')" class="px-5 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs">
+          Close Preview
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/mock-data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    let currentLesson = null;
+    let hasUnsavedChanges = false;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Protect route for teachers
+      const user = await window.ATCodesAuth.protectRoute({ allowedRoles: ['teacher'] });
+      if (!user) return;
+
+      // Logout handler
+      const logoutBtn = document.querySelector('aside a[href="../login.html"]');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          if (hasUnsavedChanges && !confirm('You have unsaved changes. Discard and logout?')) {
+            return;
+          }
+          await window.ATCodesAuth.logout();
+        });
+      }
+
+      await loadLessonData();
+
+      // Listen for changes to mark unsaved
+      document.querySelectorAll('input, textarea').forEach(el => {
+        el.addEventListener('input', () => {
+          hasUnsavedChanges = true;
+          const statusBadge = document.getElementById('editor-status-badge');
+          if (!statusBadge.textContent.includes('Unsaved')) {
+            statusBadge.textContent = '○ Unsaved Changes';
+            statusBadge.className = 'px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-[10px] font-bold';
+          }
+        });
+      });
+
+      // Browser leave warning
+      window.addEventListener('beforeunload', (e) => {
+        if (hasUnsavedChanges) {
+          e.preventDefault();
+          e.returnValue = '';
+        }
+      });
+    });
+
+    async function loadLessonData() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const lessonId = urlParams.get('id');
+
+      if (!lessonId) {
+        // No ID, teacher is editing demo/template or blank lesson
+        return;
+      }
+
+      try {
+        currentLesson = await window.ATCodesAPI.getLesson(lessonId);
+      } catch (err) {
+        console.warn('API error fetching lesson:', err);
+        return;
+      }
+
+      if (!currentLesson) return;
+
+      // Update header
+      document.getElementById('editor-header-topic').textContent = currentLesson.title;
+      document.getElementById('editor-topic-input').value = currentLesson.title;
+      if (currentLesson.courseId) {
+        document.getElementById('editor-course-input').value = currentLesson.courseId.title || currentLesson.courseId;
+      }
+      if (currentLesson.chapterId) {
+        document.getElementById('editor-chapter-input').value = currentLesson.chapterId.title || currentLesson.chapterId;
+      }
+
+      // Update status badge
+      const isPublished = (currentLesson.status || '').toLowerCase() === 'published';
+      const statusBadge = document.getElementById('editor-status-badge');
+      statusBadge.textContent = isPublished ? '● Published' : '○ Draft';
+      statusBadge.className = isPublished
+        ? 'px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold'
+        : 'px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-[10px] font-bold';
+
+      // Populate 10 sections
+      const c = currentLesson.content || {};
+      if (c.curiosity && c.curiosity.text) document.getElementById('sec-curiosity').value = c.curiosity.text;
+      if (c.conceptDiscovery) {
+        if (c.conceptDiscovery.text) document.getElementById('sec-concept').value = c.conceptDiscovery.text;
+        if (c.conceptDiscovery.code) document.getElementById('sec-concept-code').value = c.conceptDiscovery.code;
+      }
+      if (c.realLifeConnection && c.realLifeConnection.text) document.getElementById('sec-analogy').value = c.realLifeConnection.text;
+      if (c.blackboard) {
+        const bbText = c.blackboard.text || '';
+        const bulletsText = (c.blackboard.bullets && c.blackboard.bullets.length > 0)
+          ? c.blackboard.bullets.map(b => `• ${b}`).join('\n')
+          : '';
+        document.getElementById('sec-blackboard').value = [bbText, bulletsText].filter(Boolean).join('\n');
+      }
+      if (c.behindTheScenes && c.behindTheScenes.text) document.getElementById('sec-behind').value = c.behindTheScenes.text;
+      if (c.practical) {
+        if (c.practical.text) document.getElementById('sec-build-desc').value = c.practical.text;
+        if (c.practical.code) document.getElementById('sec-build-code').value = c.practical.code;
+      }
+      if (c.developerThinking && c.developerThinking.text) document.getElementById('sec-think').value = c.developerThinking.text;
+      if (c.classroomChallenge) {
+        if (c.classroomChallenge.text) document.getElementById('sec-challenge-q').value = c.classroomChallenge.text;
+        if (c.classroomChallenge.code) document.getElementById('sec-challenge-code').value = c.classroomChallenge.code;
+      }
+      if (c.developerKnowledge && c.developerKnowledge.text) document.getElementById('sec-industry').value = c.developerKnowledge.text;
+      if (c.chapterMission && c.chapterMission.text) document.getElementById('sec-mission').value = c.chapterMission.text;
+
+      hasUnsavedChanges = false;
+    }
+
+    function collectEditorContent() {
+      return {
+        curiosity: { title: 'Curiosity', text: document.getElementById('sec-curiosity').value },
+        conceptDiscovery: {
+          title: 'Concept Discovery',
+          text: document.getElementById('sec-concept').value,
+          code: document.getElementById('sec-concept-code').value,
+          language: 'javascript'
+        },
+        realLifeConnection: { title: 'Real-Life Connection', text: document.getElementById('sec-analogy').value },
+        blackboard: {
+          title: "Teacher's Blackboard",
+          text: document.getElementById('sec-blackboard').value
+        },
+        behindTheScenes: { title: 'Behind the Scenes', text: document.getElementById('sec-behind').value },
+        practical: {
+          title: "Let's Build Something!",
+          text: document.getElementById('sec-build-desc').value,
+          code: document.getElementById('sec-build-code').value,
+          language: 'javascript'
+        },
+        developerThinking: { title: 'Think Like a Developer', text: document.getElementById('sec-think').value },
+        classroomChallenge: {
+          title: 'Classroom Challenge',
+          text: document.getElementById('sec-challenge-q').value,
+          code: document.getElementById('sec-challenge-code').value,
+          language: 'javascript'
+        },
+        developerKnowledge: { title: 'Real Developer Knowledge', text: document.getElementById('sec-industry').value },
+        chapterMission: { title: 'Chapter Mission', text: document.getElementById('sec-mission').value }
+      };
+    }
+
+    async function saveDraft() {
+      const topicTitle = document.getElementById('editor-topic-input').value.trim();
+      const content = collectEditorContent();
+
+      if (currentLesson && currentLesson._id) {
+        try {
+          await window.ATCodesAPI.updateLesson(currentLesson._id, {
+            title: topicTitle,
+            content,
+            status: 'draft'
+          });
+          hasUnsavedChanges = false;
+          const statusBadge = document.getElementById('editor-status-badge');
+          statusBadge.textContent = '○ Draft Saved';
+          statusBadge.className = 'px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-[10px] font-bold';
+          ATCodesUI.showToast(`Draft for "${topicTitle}" saved to database!`, 'success');
+        } catch (err) {
+          ATCodesUI.showToast(err.message || 'Failed to save draft', 'error');
+        }
+      } else {
+        ATCodesUI.showToast(`Draft for "${topicTitle}" saved in memory!`, 'info');
+      }
+    }
+
+    async function publishLesson() {
+      const topicTitle = document.getElementById('editor-topic-input').value.trim();
+      const content = collectEditorContent();
+
+      if (currentLesson && currentLesson._id) {
+        try {
+          await window.ATCodesAPI.updateLesson(currentLesson._id, {
+            title: topicTitle,
+            content,
+            status: 'published'
+          });
+          hasUnsavedChanges = false;
+          const statusBadge = document.getElementById('editor-status-badge');
+          statusBadge.textContent = '● Published';
+          statusBadge.className = 'px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold';
+          ATCodesUI.showToast(`Lesson "${topicTitle}" published to student portal!`, 'success');
+        } catch (err) {
+          ATCodesUI.showToast(err.message || 'Failed to publish lesson', 'error');
+        }
+      } else {
+        ATCodesUI.showToast(`Lesson "${topicTitle}" published in memory!`, 'success');
+      }
+    }
+
+    function openPreviewModal() {
+      const title = document.getElementById('editor-topic-input').value;
+      document.getElementById('preview-modal-title').textContent = title;
+
+      const body = document.getElementById('preview-modal-body');
+      body.innerHTML = `
+        <div class="p-4 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60">
+          <h4 class="font-bold text-blue-900 dark:text-blue-300 mb-1">1. Curiosity</h4>
+          <p class="leading-relaxed">${escapeHtml(document.getElementById('sec-curiosity').value)}</p>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="font-bold text-slate-900 dark:text-white">2. Concept Discovery</h4>
+          <p class="leading-relaxed">${escapeHtml(document.getElementById('sec-concept').value)}</p>
+          <pre class="p-3 rounded-xl bg-slate-900 text-slate-200 font-mono text-[11px] overflow-x-auto">${escapeHtml(document.getElementById('sec-concept-code').value)}</pre>
+        </div>
+
+        <div class="p-4 rounded-xl bg-violet-50 dark:bg-violet-950/40 border border-violet-200 dark:border-violet-900/60">
+          <h4 class="font-bold text-violet-900 dark:text-violet-300 mb-1">3. Real-Life Connection</h4>
+          <p class="leading-relaxed">${escapeHtml(document.getElementById('sec-analogy').value)}</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60">
+          <h4 class="font-bold text-emerald-900 dark:text-emerald-300 mb-1">4. Teacher's Blackboard</h4>
+          <p class="leading-relaxed whitespace-pre-wrap">${escapeHtml(document.getElementById('sec-blackboard').value)}</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-900/60">
+          <h4 class="font-bold text-cyan-900 dark:text-cyan-300 mb-1">5. Behind the Scenes</h4>
+          <p class="leading-relaxed">${escapeHtml(document.getElementById('sec-behind').value)}</p>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="font-bold text-slate-900 dark:text-white">6. Let's Build Something!</h4>
+          <p class="leading-relaxed">${escapeHtml(document.getElementById('sec-build-desc').value)}</p>
+          <pre class="p-3 rounded-xl bg-slate-900 text-slate-200 font-mono text-[11px] overflow-x-auto">${escapeHtml(document.getElementById('sec-build-code').value)}</pre>
+        </div>
+
+        <div class="p-4 rounded-xl bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-900/60">
+          <h4 class="font-bold text-orange-900 dark:text-orange-300 mb-1">7. Think Like a Developer</h4>
+          <p class="leading-relaxed">${escapeHtml(document.getElementById('sec-think').value)}</p>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="font-bold text-slate-900 dark:text-white">8. Classroom Challenge</h4>
+          <p class="leading-relaxed">${escapeHtml(document.getElementById('sec-challenge-q').value)}</p>
+          <pre class="p-3 rounded-xl bg-slate-900 text-slate-200 font-mono text-[11px] overflow-x-auto">${escapeHtml(document.getElementById('sec-challenge-code').value)}</pre>
+        </div>
+
+        <div class="p-4 rounded-xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900/60">
+          <h4 class="font-bold text-teal-900 dark:text-teal-300 mb-1">9. Real Developer Knowledge</h4>
+          <p class="leading-relaxed">${escapeHtml(document.getElementById('sec-industry').value)}</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60">
+          <h4 class="font-bold text-blue-900 dark:text-blue-300 mb-1">10. Chapter Mission</h4>
+          <p class="leading-relaxed">${escapeHtml(document.getElementById('sec-mission').value)}</p>
+        </div>
+      `;
+
+      ATCodesUI.openModal('preview-modal');
+    }
+
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return (text || '').replace(/[&<>"']/g, m => map[m]);
+    }
+  </script>
+</body>
+</html>

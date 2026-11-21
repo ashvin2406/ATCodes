@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>Sign In — ATCodes</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col justify-between transition-colors duration-200">
+
+  <!-- Top bar with brand & theme -->
+  <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+        <i data-lucide="terminal" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent">ATCodes</span>
+        <span class="text-[10px] block font-medium text-slate-500">Learn. Teach. Build.</span>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-3">
+      <button data-theme-toggle aria-label="Toggle theme" class="p-2.5 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-dark-surface transition-all">
+        <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
+      </button>
+      <a href="index.html" class="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 flex items-center gap-1">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+        <span>Back to Home</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Login Card Area -->
+  <main class="flex-1 flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-md">
+      
+      <!-- Card -->
+      <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-3xl p-8 shadow-xl">
+        
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 mb-3">
+            <i data-lucide="lock" class="w-6 h-6"></i>
+          </div>
+          <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Welcome Back</h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Select your role and sign in to continue</p>
+        </div>
+
+        <!-- Role Selector Tab -->
+        <div class="grid grid-cols-2 p-1 bg-slate-100 dark:bg-dark-surface rounded-xl mb-6">
+          <button 
+            type="button" 
+            id="role-btn-teacher" 
+            class="py-2 px-3 rounded-lg text-xs font-bold transition-all text-slate-600 dark:text-slate-400 flex items-center justify-center gap-1.5"
+            onclick="setRole('teacher')"
+          >
+            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+            <span>Teacher Portal</span>
+          </button>
+          <button 
+            type="button" 
+            id="role-btn-student" 
+            class="py-2 px-3 rounded-lg text-xs font-bold transition-all bg-white dark:bg-dark-card text-blue-600 dark:text-blue-400 shadow-sm flex items-center justify-center gap-1.5"
+            onclick="setRole('student')"
+          >
+            <i data-lucide="user" class="w-4 h-4"></i>
+            <span>Student Portal</span>
+          </button>
+        </div>
+
+        <!-- Form -->
+        <form id="login-form" class="space-y-4">
+          <div>
+            <label for="login-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Email Address</label>
+            <div class="relative">
+              <i data-lucide="mail" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+              <input 
+                type="email" 
+                id="login-email" 
+                required 
+                placeholder="student@example.com"
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              >
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="login-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">Password</label>
+              <a href="#" onclick="alert('In this Phase 1 demo, any demo password will log you in based on your chosen role.'); return false;" class="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline">Forgot password?</a>
+            </div>
+            <div class="relative">
+              <i data-lucide="key" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+              <input 
+                type="password" 
+                id="login-password" 
+                required 
+                placeholder="••••••••"
+                class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              >
+              <button 
+                type="button" 
+                id="toggle-password-btn" 
+                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                onclick="ATCodesUI.togglePasswordVisibility('login-password', this)"
+              >
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs pt-1">
+            <label class="flex items-center gap-2 cursor-pointer text-slate-600 dark:text-slate-400">
+              <input type="checkbox" checked class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+              <span>Remember this session</span>
+            </label>
+          </div>
+
+          <button 
+            type="submit" 
+            id="login-submit-btn" 
+            class="w-full mt-2 py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-500/20 hover:shadow-blue-500/35 transition-all flex items-center justify-center gap-2"
+          >
+            <span id="login-button-text">Sign In to Student Portal</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+
+        <!-- Quick Demo Switcher helper buttons -->
+        <div class="mt-6 pt-5 border-t border-slate-100 dark:border-dark-border">
+          <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider text-center mb-3">Quick Fill Demo Credentials</div>
+          <div class="grid grid-cols-2 gap-2">
+            <button 
+              type="button" 
+              onclick="fillDemo('teacher')" 
+              class="px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-dark-border hover:bg-slate-50 dark:hover:bg-dark-surface text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center justify-center gap-1.5 transition-colors"
+            >
+              <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-500"></i>
+              <span>Teacher Mode</span>
+            </button>
+            <button 
+              type="button" 
+              onclick="fillDemo('student')" 
+              class="px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-dark-border hover:bg-slate-50 dark:hover:bg-dark-surface text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center justify-center gap-1.5 transition-colors"
+            >
+              <i data-lucide="book" class="w-3.5 h-3.5 text-emerald-500"></i>
+              <span>Student Mode</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-5 text-center text-xs text-slate-500 dark:text-slate-400">
+          Don't have an account? 
+          <a href="register.html" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">Register as student</a>
+        </div>
+      </div>
+
+      <!-- Security Notice -->
+      <div class="mt-4 p-3.5 rounded-xl bg-slate-100 dark:bg-dark-surface/50 border border-slate-200 dark:border-dark-border text-center text-[11px] text-slate-500 dark:text-slate-400">
+        <span class="font-bold text-blue-600">Phase 2 Authentication Active:</span> Authenticates against Express.js REST API with bcrypt verification and secure HTTP-only cookie sessions.
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-4 text-center text-xs text-slate-400">
+    &copy; 2026 ATCodes. Learn. Teach. Build.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    let activeRole = 'student';
+
+    function setRole(role) {
+      activeRole = role;
+      const teacherBtn = document.getElementById('role-btn-teacher');
+      const studentBtn = document.getElementById('role-btn-student');
+      const submitText = document.getElementById('login-button-text');
+      const emailInput = document.getElementById('login-email');
+
+      if (role === 'teacher') {
+        teacherBtn.className = 'py-2 px-3 rounded-lg text-xs font-bold transition-all bg-white dark:bg-dark-card text-blue-600 dark:text-blue-400 shadow-sm flex items-center justify-center gap-1.5';
+        studentBtn.className = 'py-2 px-3 rounded-lg text-xs font-bold transition-all text-slate-600 dark:text-slate-400 flex items-center justify-center gap-1.5';
+        submitText.textContent = 'Sign In to Teacher Dashboard';
+        emailInput.value = 'teacher@atcodes.internal';
+      } else {
+        studentBtn.className = 'py-2 px-3 rounded-lg text-xs font-bold transition-all bg-white dark:bg-dark-card text-blue-600 dark:text-blue-400 shadow-sm flex items-center justify-center gap-1.5';
+        teacherBtn.className = 'py-2 px-3 rounded-lg text-xs font-bold transition-all text-slate-600 dark:text-slate-400 flex items-center justify-center gap-1.5';
+        submitText.textContent = 'Sign In to Student Portal';
+        emailInput.value = 'student@atcodes.dev';
+      }
+    }
+
+    function fillDemo(role) {
+      setRole(role);
+      if (role === 'teacher') {
+        document.getElementById('login-email').value = 'teacher@atcodes.internal';
+        document.getElementById('login-password').value = 'ATCodesTeacher2026!';
+        ATCodesUI.showToast('Filled teacher credentials (ATCodesTeacher2026!)', 'info');
+      } else {
+        document.getElementById('login-email').value = 'student@atcodes.dev';
+        document.getElementById('login-password').value = 'StudentSecure2026!';
+        ATCodesUI.showToast('Filled student credentials (StudentSecure2026!)', 'info');
+      }
+    }
+
+    const loginForm = document.getElementById('login-form');
+    const submitBtn = document.getElementById('login-submit-btn');
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const originalBtnHTML = submitBtn.innerHTML;
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+          <i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
+          <span>Authenticating...</span>
+        `;
+        if (window.lucide) window.lucide.createIcons();
+
+        const response = await ATCodesAuth.login(email, password);
+        const user = response.data.user;
+
+        ATCodesUI.showToast(`Login successful! Welcome back, ${user.fullName}.`, 'success');
+
+        // Redirect based on the actual verified server role (never frontend assumptions)
+        setTimeout(() => {
+          if (user.role === 'teacher') {
+            window.location.href = 'teacher/dashboard.html';
+          } else {
+            window.location.href = 'student/dashboard.html';
+          }
+        }, 800);
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHTML;
+        if (window.lucide) window.lucide.createIcons();
+
+        if (err.isNetworkError) {
+          ATCodesUI.showToast(err.message, 'error', 6000);
+        } else {
+          ATCodesUI.showToast(err.message || 'Login failed. Please check credentials.', 'error', 5000);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

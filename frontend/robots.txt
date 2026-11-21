@@ -1,0 +1,21 @@
+# ATCodes Robots.txt
+# Public pages and published course catalogs are indexable.
+# Private student dashboards, lessons, and teacher portals are strictly disallowed.
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /courses.html
+Allow: /course-details.html
+Allow: /about.html
+Allow: /login.html
+Allow: /register.html
+Allow: /css/
+Allow: /js/
+
+# Disallow authenticated application portals and API endpoints
+Disallow: /teacher/
+Disallow: /student/
+Disallow: /api/
+
+Sitemap: https://atcodes.in/sitemap.xml

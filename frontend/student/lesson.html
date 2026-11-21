@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson Viewer — ATCodes Learning Experience</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/custom.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/60 z-40 hidden md:hidden" onclick="toggleTopicSidebar()"></div>
+
+  <!-- Distraction-free Header -->
+  <header class="h-16 bg-white/90 dark:bg-dark-surface/90 backdrop-blur-md border-b border-slate-200 dark:border-dark-border px-4 sm:px-8 flex items-center justify-between sticky top-0 z-40">
+    <div class="flex items-center gap-4">
+      <a href="dashboard.html" class="flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-blue-600 transition-colors">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span class="hidden sm:inline">Exit to Dashboard</span>
+      </a>
+      <div class="h-4 w-px bg-slate-200 dark:bg-dark-border hidden sm:block"></div>
+      <div class="text-xs text-slate-400 truncate max-w-xs sm:max-w-md" id="header-breadcrumb">
+        <span id="header-course-name" class="font-medium text-slate-700 dark:text-slate-300">Course</span> • 
+        <span id="header-chapter-name">Chapter</span> • 
+        <span id="header-topic-name" class="text-blue-600 font-bold">Topic</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <!-- Mark Completed Button -->
+      <button id="mark-complete-btn" onclick="toggleLessonComplete()" class="px-3.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60 text-xs font-bold hover:bg-emerald-600 hover:text-white transition-all flex items-center gap-1.5">
+        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+        <span id="mark-btn-label">Mark Completed</span>
+      </button>
+
+      <!-- Theme Toggle -->
+      <button data-theme-toggle class="p-2 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 hover:bg-slate-100 dark:hover:bg-dark-card">
+        <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
+      </button>
+
+      <!-- Toggle Chapter Index Drawer for Mobile -->
+      <button class="lg:hidden p-2 rounded-xl border border-slate-200 dark:border-dark-border" onclick="toggleTopicSidebar()">
+        <i data-lucide="sidebar" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Split Layout -->
+  <div class="flex-1 flex overflow-hidden">
+    
+    <!-- Topic Sidebar (Chapter Navigation) -->
+    <aside id="topic-sidebar" class="w-80 bg-white dark:bg-dark-surface border-r border-slate-200 dark:border-dark-border flex-shrink-0 hidden lg:flex flex-col justify-between overflow-y-auto">
+      <div class="p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Chapter Topics</h3>
+          <span id="sidebar-progress-badge" class="text-xs font-mono text-blue-600 font-bold">0 / 0 Completed</span>
+        </div>
+
+        <div id="sidebar-topics-list" class="space-y-1.5 text-xs">
+          <!-- Populated dynamically -->
+          <div class="p-4 text-center text-slate-400 text-xs">Loading chapter topics...</div>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-slate-100 dark:border-dark-border space-y-2 text-xs">
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-dark-card flex items-center justify-between">
+          <span class="text-slate-500 font-medium">10-Step Pedagogy</span>
+          <span class="text-[10px] font-bold text-emerald-600">VERIFIED</span>
+        </div>
+        <a href="assignments.html" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 text-blue-600 font-semibold">
+          <span>View Course Assignments</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Reading Content Viewport -->
+    <main class="flex-1 overflow-y-auto p-4 sm:p-10 lg:p-14 max-w-4xl mx-auto space-y-10" id="lesson-viewport">
+      
+      <!-- Lesson Loading Skeleton or Content -->
+      <div id="lesson-content-area" class="space-y-10">
+        
+        <!-- Lesson Header Title Card -->
+        <div class="space-y-3 pb-6 border-b border-slate-200 dark:border-dark-border">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 text-xs font-semibold">
+            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+            ATCodes 10-Step Pedagogy Master Lesson
+          </div>
+          <h1 id="lesson-title" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Loading Lesson...
+          </h1>
+          <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+            <span class="flex items-center gap-1"><i data-lucide="user" class="w-3.5 h-3.5"></i> <span id="lesson-author">ATCodes Instructor</span></span>
+            <span>•</span>
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> <span id="lesson-duration">30 mins read</span></span>
+            <span>•</span>
+            <span class="flex items-center gap-1"><i data-lucide="cpu" class="w-3.5 h-3.5"></i> <span id="lesson-course-name">Curriculum</span></span>
+          </div>
+        </div>
+
+        <!-- 1. Curiosity -->
+        <section id="sec-curiosity" class="p-6 sm:p-8 rounded-3xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200/80 dark:border-blue-900/60 space-y-3">
+          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+            <i data-lucide="help-circle" class="w-4 h-4"></i>
+            <span id="title-curiosity">1. Curiosity — The Question That Stumps Most Developers</span>
+          </div>
+          <p id="text-curiosity" class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
+            ...
+          </p>
+        </section>
+
+        <!-- 2. Concept Discovery -->
+        <section id="sec-concept" class="space-y-4">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 text-xs font-bold flex items-center justify-center">2</span>
+            <span id="title-concept">Concept Discovery</span>
+          </h2>
+          <p id="text-concept" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+            ...
+          </p>
+
+          <!-- Code Block -->
+          <div id="code-box-concept" class="code-window">
+            <div class="px-4 py-2.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between text-xs text-slate-400 font-mono">
+              <span id="lang-concept">javascript</span>
+              <button onclick="ATCodesUI.copyToClipboard(document.getElementById('code-concept').innerText, this)" class="hover:text-white flex items-center gap-1">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>Copy</span>
+              </button>
+            </div>
+            <pre class="p-4 text-xs font-mono text-slate-200 overflow-x-auto"><code id="code-concept">// Demonstration code</code></pre>
+          </div>
+        </section>
+
+        <!-- 3. Real-Life Connection -->
+        <section id="sec-real-life" class="p-6 sm:p-8 rounded-3xl bg-violet-50/70 dark:bg-violet-950/30 border border-violet-200/80 dark:border-violet-900/60 space-y-3">
+          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-violet-600 dark:text-violet-400">
+            <i data-lucide="lightbulb" class="w-4 h-4"></i>
+            <span id="title-real-life">3. Real-Life Connection — Intuitive Analogy</span>
+          </div>
+          <p id="text-real-life" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+            ...
+          </p>
+        </section>
+
+        <!-- 4. Teacher's Blackboard -->
+        <section id="sec-blackboard" class="space-y-4">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 text-xs font-bold flex items-center justify-center">4</span>
+            <span id="title-blackboard">Teacher's Blackboard: Architectural Rules</span>
+          </h2>
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+            <p id="text-blackboard" class="font-medium text-slate-800 dark:text-slate-200">...</p>
+            <div id="bullets-blackboard" class="space-y-2 pt-1">
+              <!-- Blackboard bullets populated here -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Behind the Scenes -->
+        <section id="sec-behind-the-scenes" class="space-y-4">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-cyan-100 dark:bg-cyan-900/60 text-cyan-600 text-xs font-bold flex items-center justify-center">5</span>
+            <span id="title-behind-the-scenes">Behind the Scenes: Engine Internals & Memory Layout</span>
+          </h2>
+          <p id="text-behind-the-scenes" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+            ...
+          </p>
+        </section>
+
+        <!-- 6. Let's Build Something! -->
+        <section id="sec-practical" class="space-y-4">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-amber-100 dark:bg-amber-900/60 text-amber-600 text-xs font-bold flex items-center justify-center">6</span>
+            <span id="title-practical">Let's Build Something: Practical Implementation</span>
+          </h2>
+          <p id="text-practical" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+            ...
+          </p>
+
+          <div id="code-box-practical" class="code-window">
+            <div class="px-4 py-2.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between text-xs text-slate-400 font-mono">
+              <span id="lang-practical">javascript</span>
+              <button onclick="ATCodesUI.copyToClipboard(document.getElementById('code-practical').innerText, this)" class="hover:text-white flex items-center gap-1">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>Copy</span>
+              </button>
+            </div>
+            <pre class="p-4 text-xs font-mono text-slate-200 overflow-x-auto"><code id="code-practical">// Practical code</code></pre>
+          </div>
+        </section>
+
+        <!-- 7. Think Like a Developer -->
+        <section id="sec-developer-thinking" class="p-6 rounded-2xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 space-y-2">
+          <h3 class="text-sm font-bold text-amber-900 dark:text-amber-300 flex items-center gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500"></i>
+            <span id="title-developer-thinking">7. Think Like a Developer — Engineering Trade-offs</span>
+          </h3>
+          <p id="text-developer-thinking" class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+            ...
+          </p>
+        </section>
+
+        <!-- 8. Classroom Challenge -->
+        <section id="sec-challenge" class="p-6 rounded-3xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-rose-100 dark:bg-rose-900/60 text-rose-600 text-xs font-bold flex items-center justify-center">8</span>
+              <span id="title-challenge">Classroom Challenge</span>
+            </h3>
+            <span class="text-xs text-rose-500 font-bold">Interactive Puzzle</span>
+          </div>
+          <p id="text-challenge" class="text-xs text-slate-600 dark:text-slate-400">
+            ...
+          </p>
+          <div id="code-box-challenge">
+            <pre class="p-3 rounded-xl bg-slate-900 text-slate-200 font-mono text-xs"><code id="code-challenge"></code></pre>
+          </div>
+          <div class="pt-2">
+            <button id="toggle-hint-btn" onclick="toggleHint()" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
+              <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+              <span>Show Instructor Hint & Solution</span>
+            </button>
+            <div id="challenge-hint-box" class="hidden mt-3 p-4 rounded-xl bg-slate-50 dark:bg-dark-surface text-xs text-slate-600 dark:text-slate-400 space-y-2 border border-slate-200 dark:border-dark-border">
+              <p id="hint-text"><strong>Instructor Note:</strong> Examine the lexical scope binding carefully.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. Real Developer Knowledge -->
+        <section id="sec-developer-knowledge" class="space-y-3">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-teal-100 dark:bg-teal-900/60 text-teal-600 text-xs font-bold flex items-center justify-center">9</span>
+            <span id="title-developer-knowledge">Real Developer Knowledge: Framework & System Internals</span>
+          </h2>
+          <p id="text-developer-knowledge" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+            ...
+          </p>
+        </section>
+
+        <!-- 10. Chapter Mission -->
+        <section id="sec-mission" class="p-8 rounded-3xl bg-gradient-to-br from-blue-900/10 via-indigo-900/10 to-violet-900/10 border border-blue-200 dark:border-blue-900/60 space-y-4">
+          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+            <i data-lucide="award" class="w-4 h-4"></i>
+            <span>10. Chapter Mission — Capstone Milestone Assignment</span>
+          </div>
+          <h3 id="title-mission" class="text-lg font-bold text-slate-900 dark:text-white">
+            Capstone Mission
+          </h3>
+          <p id="text-mission" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+            ...
+          </p>
+          <div class="pt-2">
+            <a href="assignments.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-all">
+              <span>Go to Assignments Submission</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        </section>
+
+        <!-- Previous / Next Navigation Footer -->
+        <div class="pt-8 border-t border-slate-200 dark:border-dark-border flex items-center justify-between">
+          <a id="nav-prev-btn" href="#" class="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border hover:bg-white text-xs font-semibold flex items-center gap-2 transition-colors opacity-40 pointer-events-none">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span id="nav-prev-title">Previous Topic</span>
+          </a>
+          <a id="nav-next-btn" href="#" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-2 shadow-sm transition-colors opacity-40 pointer-events-none">
+            <span id="nav-next-title">Next Topic</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/mock-data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    let currentLessonId = '';
+    let isCompleted = false;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Guard check
+      const user = await ATCodesAuth.protectRoute({ allowedRoles: ['student'], requireActive: true });
+      if (!user) return;
+
+      // 2. Determine target lessonId from query params
+      const urlParams = new URLSearchParams(window.location.search);
+      let lessonId = urlParams.get('id');
+      const courseId = urlParams.get('courseId');
+
+      if (!lessonId) {
+        // If courseId provided, or fall back to first enrolled course
+        try {
+          const courses = await ATCodesAPI.getStudentCourses();
+          if (courses.length > 0) {
+            const matchedCourse = courseId ? courses.find(c => c._id === courseId) || courses[0] : courses[0];
+            lessonId = matchedCourse.firstLessonId;
+          }
+        } catch (e) {
+          console.warn('Could not determine default lesson:', e);
+        }
+      }
+
+      if (!lessonId) {
+        document.getElementById('lesson-title').textContent = 'No Enrolled Lessons Found';
+        document.getElementById('text-curiosity').textContent = 'You are not enrolled in any courses yet or the course has no published lessons. Contact your teacher.';
+        return;
+      }
+
+      currentLessonId = lessonId;
+      await loadLessonData(lessonId);
+    });
+
+    async function loadLessonData(lessonId) {
+      try {
+        const lessonData = await ATCodesAPI.getStudentLesson(lessonId);
+        if (!lessonData) return;
+
+        // Auto-mark lesson as started
+        ATCodesAPI.startStudentLesson(lessonId).catch(() => {});
+
+        // Header and Breadcrumb
+        const courseName = lessonData.courseId?.title || 'Course';
+        const chapterName = lessonData.chapterId?.title || 'Chapter';
+        const topicName = lessonData.title;
+
+        document.getElementById('header-course-name').textContent = courseName;
+        document.getElementById('header-chapter-name').textContent = chapterName;
+        document.getElementById('header-topic-name').textContent = topicName;
+
+        document.getElementById('lesson-title').textContent = topicName;
+        document.getElementById('lesson-duration').textContent = lessonData.estimatedDuration || '30 mins read';
+        document.getElementById('lesson-course-name').textContent = courseName;
+
+        // Completion status
+        isCompleted = !!lessonData.isCompleted;
+        updateCompleteButtonUI();
+
+        // 10 Sections
+        const c = lessonData.content || {};
+
+        // 1. Curiosity
+        document.getElementById('title-curiosity').textContent = c.curiosity?.title || '1. Curiosity — The Question That Stumps Most Developers';
+        document.getElementById('text-curiosity').textContent = c.curiosity?.text || 'Explore this foundational concept.';
+
+        // 2. Concept Discovery
+        document.getElementById('title-concept').textContent = c.conceptDiscovery?.title || 'Concept Discovery';
+        document.getElementById('text-concept').textContent = c.conceptDiscovery?.text || '';
+        if (c.conceptDiscovery?.code) {
+          document.getElementById('code-box-concept').classList.remove('hidden');
+          document.getElementById('code-concept').textContent = c.conceptDiscovery.code;
+          document.getElementById('lang-concept').textContent = c.conceptDiscovery.language || 'code';
+        } else {
+          document.getElementById('code-box-concept').classList.add('hidden');
+        }
+
+        // 3. Real-Life Connection
+        document.getElementById('title-real-life').textContent = c.realLifeConnection?.title || '3. Real-Life Connection — Intuitive Analogy';
+        document.getElementById('text-real-life').textContent = c.realLifeConnection?.text || 'Real world context.';
+
+        // 4. Teacher's Blackboard
+        document.getElementById('title-blackboard').textContent = c.blackboard?.title || "Teacher's Blackboard: Architectural Rules";
+        document.getElementById('text-blackboard').textContent = c.blackboard?.text || 'Key takeaway rules:';
+        const bulletsContainer = document.getElementById('bullets-blackboard');
+        if (c.blackboard?.bullets && c.blackboard.bullets.length > 0) {
+          bulletsContainer.innerHTML = c.blackboard.bullets.map((b, idx) => `
+            <div class="flex items-start gap-3">
+              <span class="px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-bold text-xs">Rule ${idx + 1}</span>
+              <p>${b}</p>
+            </div>
+          `).join('');
+        } else {
+          bulletsContainer.innerHTML = '';
+        }
+
+        // 5. Behind the Scenes
+        document.getElementById('title-behind-the-scenes').textContent = c.behindTheScenes?.title || '5. Behind the Scenes: Memory & Internals';
+        document.getElementById('text-behind-the-scenes').textContent = c.behindTheScenes?.text || 'Low-level execution mechanics.';
+
+        // 6. Practical
+        document.getElementById('title-practical').textContent = c.practical?.title || "Let's Build Something: Practical Implementation";
+        document.getElementById('text-practical').textContent = c.practical?.text || '';
+        if (c.practical?.code) {
+          document.getElementById('code-box-practical').classList.remove('hidden');
+          document.getElementById('code-practical').textContent = c.practical.code;
+          document.getElementById('lang-practical').textContent = c.practical.language || 'code';
+        } else {
+          document.getElementById('code-box-practical').classList.add('hidden');
+        }
+
+        // 7. Developer Thinking
+        document.getElementById('title-developer-thinking').textContent = c.developerThinking?.title || '7. Think Like a Developer — Engineering Trade-offs';
+        document.getElementById('text-developer-thinking').textContent = c.developerThinking?.text || 'Engineering tradeoffs.';
+
+        // 8. Challenge
+        document.getElementById('title-challenge').textContent = c.classroomChallenge?.title || 'Classroom Challenge';
+        document.getElementById('text-challenge').textContent = c.classroomChallenge?.text || 'Interactive bug challenge.';
+        if (c.classroomChallenge?.code) {
+          document.getElementById('code-box-challenge').classList.remove('hidden');
+          document.getElementById('code-challenge').textContent = c.classroomChallenge.code;
+        } else {
+          document.getElementById('code-box-challenge').classList.add('hidden');
+        }
+        if (c.classroomChallenge?.notes) {
+          document.getElementById('hint-text').innerHTML = `<strong>Instructor Note:</strong> ${c.classroomChallenge.notes}`;
+        }
+
+        // 9. Developer Knowledge
+        document.getElementById('title-developer-knowledge').textContent = c.developerKnowledge?.title || 'Real Developer Knowledge';
+        document.getElementById('text-developer-knowledge').textContent = c.developerKnowledge?.text || 'Industry patterns.';
+
+        // 10. Chapter Mission
+        document.getElementById('title-mission').textContent = c.chapterMission?.title || 'Capstone Chapter Mission';
+        document.getElementById('text-mission').textContent = c.chapterMission?.text || 'Complete the chapter capstone mission.';
+
+        // Navigation (Previous / Next)
+        const prevBtn = document.getElementById('nav-prev-btn');
+        if (lessonData.navigation?.previous) {
+          prevBtn.href = `lesson.html?id=${lessonData.navigation.previous.id}`;
+          document.getElementById('nav-prev-title').textContent = `Previous: ${lessonData.navigation.previous.title}`;
+          prevBtn.classList.remove('opacity-40', 'pointer-events-none');
+        } else {
+          prevBtn.classList.add('opacity-40', 'pointer-events-none');
+        }
+
+        const nextBtn = document.getElementById('nav-next-btn');
+        if (lessonData.navigation?.next) {
+          nextBtn.href = `lesson.html?id=${lessonData.navigation.next.id}`;
+          document.getElementById('nav-next-title').textContent = `Next: ${lessonData.navigation.next.title}`;
+          nextBtn.classList.remove('opacity-40', 'pointer-events-none');
+        } else {
+          nextBtn.classList.add('opacity-40', 'pointer-events-none');
+        }
+
+        // Sidebar Topics
+        renderSidebarTopics(lessonData.sidebarLessons || [], lessonData.completedCountInChapter || 0, lessonData.totalCountInChapter || 0);
+
+        ATCodesUI.refreshIcons();
+      } catch (err) {
+        console.error('Lesson view error:', err);
+        ATCodesUI.showToast(err.message || 'Failed to load lesson.', 'error');
+      }
+    }
+
+    function renderSidebarTopics(lessons, completedCount, totalCount) {
+      document.getElementById('sidebar-progress-badge').textContent = `${completedCount} / ${totalCount} Completed`;
+      const container = document.getElementById('sidebar-topics-list');
+
+      container.innerHTML = lessons.map(l => {
+        if (l.isCurrent) {
+          return `
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-blue-50 dark:bg-blue-900/40 border border-blue-200/60 dark:border-blue-800/60 shadow-sm">
+              <i data-lucide="play-circle" class="w-4 h-4 text-blue-600 mt-0.5"></i>
+              <div>
+                <div class="font-bold text-blue-700 dark:text-blue-300">${l.order}. ${l.title}</div>
+                <span class="text-[10px] text-blue-500 font-semibold">Current Lesson • ${l.estimatedDuration || '30m'}</span>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <a href="lesson.html?id=${l._id}" class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-dark-card transition-colors">
+            <i data-lucide="${l.isCompleted ? 'check-circle' : 'circle'}" class="w-4 h-4 ${l.isCompleted ? 'text-emerald-500' : 'text-slate-300 dark:text-slate-600'} mt-0.5"></i>
+            <div>
+              <div class="font-medium text-slate-700 dark:text-slate-300">${l.order}. ${l.title}</div>
+              <span class="text-[10px] text-slate-400">${l.estimatedDuration || '30m'} ${l.isCompleted ? '• Completed' : ''}</span>
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    async function toggleLessonComplete() {
+      try {
+        const res = await ATCodesAPI.completeStudentLesson(currentLessonId, true);
+        isCompleted = !isCompleted;
+        updateCompleteButtonUI();
+        if (isCompleted) {
+          ATCodesUI.showToast('Congratulations! Topic marked as completed.', 'success');
+        } else {
+          ATCodesUI.showToast('Topic status reset to in-progress.', 'info');
+        }
+        // Reload sidebar to reflect updated checkmark
+        await loadLessonData(currentLessonId);
+      } catch (err) {
+        ATCodesUI.showToast(err.message || 'Could not update lesson status', 'error');
+      }
+    }
+
+    function updateCompleteButtonUI() {
+      const btn = document.getElementById('mark-complete-btn');
+      const label = document.getElementById('mark-btn-label');
+
+      if (isCompleted) {
+        btn.className = 'px-3.5 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-md transition-all flex items-center gap-1.5';
+        label.textContent = 'Completed ✔';
+      } else {
+        btn.className = 'px-3.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60 text-xs font-bold hover:bg-emerald-600 hover:text-white transition-all flex items-center gap-1.5';
+        label.textContent = 'Mark Completed';
+      }
+    }
+
+    function toggleHint() {
+      const hint = document.getElementById('challenge-hint-box');
+      hint.classList.toggle('hidden');
+    }
+
+    function toggleTopicSidebar() {
+      const sidebar = document.getElementById('topic-sidebar');
+      sidebar.classList.toggle('hidden');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      backdrop.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

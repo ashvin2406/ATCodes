@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Settings — ATCodes</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/custom.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/60 z-40 hidden md:hidden" onclick="ATCodesUI.toggleSidebar()"></div>
+
+  <div class="flex-1 flex overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="app-sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-dark-surface border-r border-slate-200 dark:border-dark-border flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-200">
+      <div>
+        <div class="h-20 px-6 flex items-center justify-between border-b border-slate-100 dark:border-dark-border">
+          <a href="dashboard.html" class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-md">
+              <i data-lucide="terminal" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent">ATCodes</span>
+              <span class="text-[10px] block font-semibold text-blue-600 dark:text-blue-400">Teacher Studio</span>
+            </div>
+          </a>
+          <button class="md:hidden text-slate-400" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <nav class="px-3 py-6 space-y-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Overview</span>
+          </a>
+          <a href="courses.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>My Courses</span>
+          </a>
+          <a href="lesson-editor.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="edit-3" class="w-4 h-4"></i>
+            <span>Lesson Editor</span>
+            <span class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold">10-STEP</span>
+          </a>
+          <a href="content-import.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="sparkles" class="w-4 h-4 text-blue-500"></i>
+            <span>Import ChatGPT</span>
+            <span class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300 font-extrabold">AI</span>
+          </a>
+          <a href="practical-library.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="code-2" class="w-4 h-4"></i>
+            <span>Practical Library</span>
+          </a>
+          <a href="students.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>Students</span>
+          </a>
+          <a href="settings.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 font-bold text-xs shadow-sm">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t border-slate-100 dark:border-dark-border">
+        <button onclick="ATCodesAuth.logout()" class="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-semibold">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      <header class="h-20 bg-white/80 dark:bg-dark-surface/80 backdrop-blur-md border-b border-slate-200 dark:border-dark-border px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center gap-3">
+          <button class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="menu" class="w-5 h-5"></i></button>
+          <div>
+            <h1 class="text-lg font-bold text-slate-900 dark:text-white">Instructor Studio Settings</h1>
+            <p class="text-xs text-slate-500 hidden sm:block">Manage your teaching profile, notifications, and platform parameters.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button data-theme-toggle class="p-2 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 hover:bg-slate-100 dark:hover:bg-dark-card">
+            <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="p-4 sm:p-8 space-y-6 flex-1 max-w-4xl mx-auto w-full">
+        
+        <!-- Profile Card -->
+        <div class="bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border p-6 shadow-sm space-y-6">
+          <div class="border-b border-slate-100 dark:border-dark-border pb-4 flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-bold text-slate-900 dark:text-white">Educator Profile</h2>
+              <p class="text-xs text-slate-500">Public metadata displayed on courses and lessons.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 font-bold text-[10px]">
+              Verified Lead Instructor
+            </span>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-extrabold text-xl flex items-center justify-center shadow-lg">
+              AT
+            </div>
+            <div class="space-y-1">
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Prof. Alex Turner</h3>
+              <p class="text-xs text-slate-400">alex.turner@atcodes.internal</p>
+              <div class="text-[11px] text-blue-600 font-medium">Lead Curriculum Architect & Systems Engineer</div>
+            </div>
+          </div>
+
+          <form id="profile-form" class="space-y-4 pt-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Display Name</label>
+                <input type="text" id="prof-name" value="Prof. Alex Turner" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs font-medium">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Teaching Specialization</label>
+                <input type="text" id="prof-spec" value="Systems Programming & Distributed APIs" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs font-medium">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Educator Bio</label>
+              <textarea id="prof-bio" rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs leading-relaxed">Dedicated to mentoring the next generation of software engineers through first-principles learning, memory understanding, and production-tested code.</textarea>
+            </div>
+
+            <div class="flex justify-end">
+              <button type="submit" class="px-5 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 shadow-sm transition-all">
+                Save Profile
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Notification Preferences -->
+        <div class="bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border p-6 shadow-sm space-y-4">
+          <div class="border-b border-slate-100 dark:border-dark-border pb-3">
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">Notification Preferences</h2>
+            <p class="text-xs text-slate-500">Configure alert channels for student submissions and platform events.</p>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <label class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-dark-surface cursor-pointer">
+              <div>
+                <div class="font-bold text-slate-800 dark:text-slate-200">Student Assignment Submissions</div>
+                <div class="text-[11px] text-slate-400">Receive alerts when students submit chapter missions for review.</div>
+              </div>
+              <input type="checkbox" checked class="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4">
+            </label>
+
+            <label class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-dark-surface cursor-pointer">
+              <div>
+                <div class="font-bold text-slate-800 dark:text-slate-200">New Cohort Registrations</div>
+                <div class="text-[11px] text-slate-400">Notify when new students register and enroll in active courses.</div>
+              </div>
+              <input type="checkbox" checked class="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4">
+            </label>
+          </div>
+        </div>
+
+        <!-- Platform & Target Architecture Information -->
+        <div class="bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border p-6 shadow-sm space-y-4">
+          <div class="border-b border-slate-100 dark:border-dark-border pb-3">
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">Platform Information & Compatibility</h2>
+            <p class="text-xs text-slate-500">System deployment details and roadmap readiness.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div class="p-4 rounded-xl border border-slate-100 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface">
+              <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Current Phase</span>
+              <div class="font-extrabold text-sm text-slate-900 dark:text-white mt-1">Phase 1: Complete Frontend UI</div>
+              <p class="text-[11px] text-slate-500 mt-1">100% Client-side demo with local mock-data. No server dependency.</p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-100 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface">
+              <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Planned Phase 2 Backend</span>
+              <div class="font-extrabold text-sm text-blue-600 dark:text-blue-400 mt-1">Node.js + Express.js + MongoDB</div>
+              <p class="text-[11px] text-slate-500 mt-1">Document models mapped: users, courses, chapters, lessons, assignments.</p>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await ATCodesAuth.protectRoute({ allowedRoles: ['teacher'] });
+      if (user) {
+        document.getElementById('prof-name').value = user.fullName;
+      }
+    });
+
+    document.getElementById('profile-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      ATCodesUI.showToast('Teacher profile changes saved!', 'success');
+    });
+  </script>
+</body>
+</html>

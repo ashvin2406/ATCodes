@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>Student Registration — ATCodes</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col justify-between transition-colors duration-200">
+
+  <!-- Top bar -->
+  <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+        <i data-lucide="terminal" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent">ATCodes</span>
+        <span class="text-[10px] block font-medium text-slate-500">Learn. Teach. Build.</span>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-3">
+      <button data-theme-toggle aria-label="Toggle theme" class="p-2.5 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-dark-surface transition-all">
+        <i data-lucide="moon" class="theme-toggle-icon w-5 h-5"></i>
+      </button>
+      <a href="index.html" class="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 flex items-center gap-1">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+        <span>Home</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Registration Main Area -->
+  <main class="flex-1 flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-lg">
+      
+      <!-- Card -->
+      <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-3xl p-8 shadow-xl">
+        
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 mb-3">
+            <i data-lucide="user-plus" class="w-6 h-6"></i>
+          </div>
+          <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Create Student Account</h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Enroll in the ATCodes platform to access courses, practical code, and assignments.</p>
+        </div>
+
+        <form id="register-form" class="space-y-4">
+          <!-- Full Name -->
+          <div>
+            <label for="reg-name" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
+            <div class="relative">
+              <i data-lucide="user" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+              <input 
+                type="text" 
+                id="reg-name" 
+                required 
+                placeholder="Aarav Sharma"
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              >
+            </div>
+          </div>
+
+          <!-- Email & Phone Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="reg-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
+              <div class="relative">
+                <i data-lucide="mail" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input 
+                  type="email" 
+                  id="reg-email" 
+                  required 
+                  placeholder="student@example.com"
+                  class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                >
+              </div>
+            </div>
+
+            <div>
+              <label for="reg-phone" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Mobile Number</label>
+              <div class="relative">
+                <i data-lucide="phone" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input 
+                  type="tel" 
+                  id="reg-phone" 
+                  required 
+                  placeholder="+91 98765 43210"
+                  class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Password Fields Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="reg-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Password</label>
+              <div class="relative">
+                <i data-lucide="lock" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input 
+                  type="password" 
+                  id="reg-password" 
+                  required 
+                  minlength="8"
+                  placeholder="At least 8 chars"
+                  class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                >
+                <button 
+                  type="button" 
+                  class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  onclick="ATCodesUI.togglePasswordVisibility('reg-password', this)"
+                >
+                  <i data-lucide="eye" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label for="reg-confirm-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Confirm Password</label>
+              <div class="relative">
+                <i data-lucide="check" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input 
+                  type="password" 
+                  id="reg-confirm-password" 
+                  required 
+                  placeholder="Repeat password"
+                  class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                >
+                <button 
+                  type="button" 
+                  class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  onclick="ATCodesUI.togglePasswordVisibility('reg-confirm-password', this)"
+                >
+                  <i data-lucide="eye" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password Match Feedback -->
+          <div id="password-match-msg" class="hidden text-xs font-medium"></div>
+
+          <!-- Terms Checkbox -->
+          <div class="pt-1">
+            <label class="flex items-start gap-2.5 cursor-pointer text-xs text-slate-600 dark:text-slate-400">
+              <input type="checkbox" required class="mt-0.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+              <span>I agree to the ATCodes platform Terms of Learning and Honor Code.</span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            class="w-full mt-4 py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-500/20 hover:shadow-blue-500/35 transition-all flex items-center justify-center gap-2"
+          >
+            <span>Complete Registration</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+
+        <div class="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
+          Already registered? 
+          <a href="login.html" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">Sign in to your account</a>
+        </div>
+      </div>
+
+      <!-- Security Notice -->
+      <div class="mt-4 p-3.5 rounded-xl bg-slate-100 dark:bg-dark-surface/50 border border-slate-200 dark:border-dark-border text-center text-[11px] text-slate-500 dark:text-slate-400">
+        <span class="font-bold text-blue-600">Phase 2 Backend Active:</span> Real MongoDB persistence with bcrypt password hashing. New student accounts start in pending status awaiting teacher activation.
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-4 text-center text-xs text-slate-400">
+    &copy; 2026 ATCodes. Learn. Teach. Build.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    const form = document.getElementById('register-form');
+    const pwd = document.getElementById('reg-password');
+    const confirmPwd = document.getElementById('reg-confirm-password');
+    const matchMsg = document.getElementById('password-match-msg');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    function checkPasswordMatch() {
+      if (!confirmPwd.value) {
+        matchMsg.classList.add('hidden');
+        return true;
+      }
+      matchMsg.classList.remove('hidden');
+      if (pwd.value === confirmPwd.value) {
+        matchMsg.textContent = '✔ Passwords match';
+        matchMsg.className = 'text-xs font-medium text-emerald-500 flex items-center gap-1';
+        return true;
+      } else {
+        matchMsg.textContent = '✖ Passwords do not match';
+        matchMsg.className = 'text-xs font-medium text-rose-500 flex items-center gap-1';
+        return false;
+      }
+    }
+
+    pwd.addEventListener('input', checkPasswordMatch);
+    confirmPwd.addEventListener('input', checkPasswordMatch);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (pwd.value !== confirmPwd.value) {
+        ATCodesUI.showToast('Passwords do not match. Please verify.', 'error');
+        confirmPwd.focus();
+        return;
+      }
+
+      if (pwd.value.length < 8) {
+        ATCodesUI.showToast('Password must be at least 8 characters long.', 'warning');
+        pwd.focus();
+        return;
+      }
+
+      const name = document.getElementById('reg-name').value;
+      const email = document.getElementById('reg-email').value;
+      const mobile = document.getElementById('reg-phone').value;
+      const originalBtnHTML = submitBtn.innerHTML;
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+          <i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
+          <span>Creating Account in MongoDB...</span>
+        `;
+        if (window.lucide) window.lucide.createIcons();
+
+        const result = await ATCodesAuth.register({
+          fullName: name,
+          email: email,
+          mobile: mobile,
+          password: pwd.value,
+          confirmPassword: confirmPwd.value,
+          termsAccepted: true
+        });
+
+        ATCodesUI.showToast('Registration successful! Your account is pending teacher activation.', 'success', 5000);
+
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 1500);
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHTML;
+        if (window.lucide) window.lucide.createIcons();
+        ATCodesUI.showToast(err.message || 'Registration failed. Please try again.', 'error', 5000);
+      }
+    });
+  </script>
+</body>
+</html>

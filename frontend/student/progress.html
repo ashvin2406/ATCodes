@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Learning Progress — ATCodes</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/tailwind-config.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/custom.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-dark-text antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/60 z-40 hidden md:hidden" onclick="ATCodesUI.toggleSidebar()"></div>
+
+  <div class="flex-1 flex overflow-hidden">
+    <!-- Student Sidebar -->
+    <aside id="app-sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-dark-surface border-r border-slate-200 dark:border-dark-border flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-200">
+      <div>
+        <div class="h-20 px-6 flex items-center justify-between border-b border-slate-100 dark:border-dark-border">
+          <a href="dashboard.html" class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-md">
+              <i data-lucide="terminal" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent">ATCodes</span>
+              <span class="text-[10px] block font-semibold text-emerald-600 dark:text-emerald-400">Student Portal</span>
+            </div>
+          </a>
+          <button class="md:hidden text-slate-400" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <nav class="px-3 py-6 space-y-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="my-courses.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>My Courses</span>
+          </a>
+          <a href="lesson.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="play-circle" class="w-4 h-4"></i>
+            <span>Lesson Viewer</span>
+          </a>
+          <a href="practice.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="code-2" class="w-4 h-4"></i>
+            <span>Practice</span>
+          </a>
+          <a href="assignments.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="file-check" class="w-4 h-4"></i>
+            <span>Assignments</span>
+          </a>
+          <a href="progress.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 font-bold text-xs shadow-sm">
+            <i data-lucide="trending-up" class="w-4 h-4"></i>
+            <span>My Progress</span>
+          </a>
+          <a href="profile.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-card font-semibold text-xs transition-colors">
+            <i data-lucide="user" class="w-4 h-4"></i>
+            <span>Profile</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t border-slate-100 dark:border-dark-border">
+        <button onclick="ATCodesAuth.logout()" class="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 text-xs font-semibold">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      <header class="h-20 bg-white/80 dark:bg-dark-surface/80 backdrop-blur-md border-b border-slate-200 dark:border-dark-border px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center gap-3">
+          <button class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100" onclick="ATCodesUI.toggleSidebar()"><i data-lucide="menu" class="w-5 h-5"></i></button>
+          <div>
+            <h1 class="text-lg font-bold text-slate-900 dark:text-white">Learning Progress & Milestones</h1>
+            <p class="text-xs text-slate-500 hidden sm:block">Detailed analytics on topic completions and curriculum mastery.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button data-theme-toggle class="p-2.5 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 hover:bg-slate-100 dark:hover:bg-dark-card">
+            <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="p-4 sm:p-8 space-y-8 flex-1 max-w-6xl mx-auto w-full">
+        
+        <!-- Overall Progress Hero -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm">
+          <div class="space-y-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Overall Curriculum Status</span>
+            <h2 id="overall-prog-heading" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+              0% Mastered
+            </h2>
+            <p id="overall-prog-sub" class="text-xs sm:text-sm text-slate-500">
+              0 of 0 total enrolled lessons completed across active tracks.
+            </p>
+          </div>
+
+          <div class="w-full md:w-64 space-y-2">
+            <div class="flex items-center justify-between text-xs font-bold">
+              <span class="text-slate-500">Curriculum Gauge</span>
+              <span id="overall-prog-gauge" class="text-blue-600">0%</span>
+            </div>
+            <div class="w-full bg-slate-100 dark:bg-dark-surface rounded-full h-3 overflow-hidden">
+              <div id="overall-prog-bar" class="bg-gradient-to-r from-blue-600 to-indigo-600 h-3 rounded-full transition-all duration-700" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course-by-Course Progress Breakdown -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-6">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white">Course-wise Completion Breakdown</h2>
+
+          <div id="courses-breakdown-container" class="space-y-6">
+            <div class="py-6 text-center text-slate-400 text-xs">Loading course breakdowns...</div>
+          </div>
+        </div>
+
+        <!-- Recent Milestones Log -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border space-y-4">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white">Recent Milestones Achieved</h2>
+
+          <div id="milestones-log-container" class="space-y-3 text-xs">
+            <div class="py-6 text-center text-slate-400 text-xs">Loading milestone log...</div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/mock-data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await ATCodesAuth.protectRoute({ allowedRoles: ['student'], requireActive: true });
+
+      try {
+        const progressData = await ATCodesAPI.getStudentProgress();
+        const overall = progressData.overallPercentage || 0;
+
+        document.getElementById('overall-prog-heading').textContent = `${overall}% Mastered`;
+        document.getElementById('overall-prog-sub').textContent = `${progressData.grandCompletedLessons || 0} of ${progressData.grandTotalLessons || 0} total enrolled lessons completed across active tracks.`;
+        document.getElementById('overall-prog-gauge').textContent = `${overall}%`;
+        document.getElementById('overall-prog-bar').style.width = `${overall}%`;
+
+        // Course Breakdown
+        const coursesContainer = document.getElementById('courses-breakdown-container');
+        if (progressData.courses?.length > 0) {
+          coursesContainer.innerHTML = progressData.courses.map((c) => `
+            <div class="space-y-2 text-xs">
+              <div class="flex items-center justify-between font-bold">
+                <span class="text-slate-800 dark:text-slate-200">${c.title}</span>
+                <span class="text-blue-600">${c.percentage}% (${c.completedLessons} / ${c.totalLessons} Topics)</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-dark-surface rounded-full h-2.5 overflow-hidden">
+                <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: ${c.percentage}%"></div>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          coursesContainer.innerHTML = `<div class="text-center py-6 text-slate-400 text-xs">No active enrolled courses to display.</div>`;
+        }
+
+        // Milestones
+        const milestonesContainer = document.getElementById('milestones-log-container');
+        if (progressData.milestones?.length > 0) {
+          milestonesContainer.innerHTML = progressData.milestones.map((m) => `
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-dark-surface border border-slate-100 dark:border-dark-border">
+              <i data-lucide="${m.type === 'assignment' ? 'file-check' : 'check-circle-2'}" class="w-4 h-4 text-emerald-500"></i>
+              <span class="font-medium text-slate-800 dark:text-slate-200">${m.title}</span>
+              <span class="ml-auto text-slate-400 text-[11px]">${new Date(m.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</span>
+            </div>
+          `).join('');
+        } else {
+          milestonesContainer.innerHTML = `<div class="text-center py-6 text-slate-400 text-xs">Start lessons and submit assignments to log your first milestones!</div>`;
+        }
+
+        ATCodesUI.refreshIcons();
+      } catch (err) {
+        console.warn('Progress fetch error:', err.message);
+        ATCodesUI.showToast(err.message, 'error');
+      }
+    });
+  </script>
+</body>
+</html>
