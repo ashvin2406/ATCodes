@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "ATCodes — Learn. Teach. Build. Phase 2 Backend & Frontend Platform",
   "scripts": {
+    "build": "cd backend && npm install",
     "install:all": "cd backend && npm install",
     "start": "cd backend && npm start",
     "dev": "cd backend && npm run dev",

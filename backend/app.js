@@ -59,9 +59,17 @@ app.use(cookieParser(config.cookieSecret));
 // Mount REST API endpoints with general API rate limiting
 app.use('/api', apiLimiter, apiRoutes);
 
-// Serve Frontend Static Files
+// Serve Frontend Static Files with no-cache on HTML to guarantee immediate updates
 const frontendPath = path.join(__dirname, '..', 'frontend');
-app.use(express.static(frontendPath));
+app.use(express.static(frontendPath, {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  }
+}));
 
 // API 404 handler (for unmatched /api/* requests)
 app.use('/api', notFoundHandler);

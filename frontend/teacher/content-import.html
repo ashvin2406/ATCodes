@@ -295,16 +295,16 @@
   <script>
     // 10 Section Definitions
     const ATCODES_SECTIONS = [
-      { key: 'curiosity', num: '01', name: 'Curiosity', helper: 'Provocative question / hook', regex: /(?:^|\n)(?:#+\s*)?(?:1[\.\:\s-]*)?curiosity/i },
-      { key: 'conceptDiscovery', num: '02', name: 'Concept Discovery', helper: 'Definition & core theoretical concepts', regex: /(?:^|\n)(?:#+\s*)?(?:2[\.\:\s-]*)?concept(?:\s*discovery)?/i },
-      { key: 'realLifeConnection', num: '03', name: 'Real-Life Connection', helper: 'Real-world intuitive metaphor', regex: /(?:^|\n)(?:#+\s*)?(?:3[\.\:\s-]*)?real[\s-]*life(?:\s*connection)?/i },
-      { key: 'blackboard', num: '04', name: "Teacher's Blackboard", helper: 'Core laws, bulleted rules & diagrams', regex: /(?:^|\n)(?:#+\s*)?(?:4[\.\:\s-]*)?teacher(?:'s)?\s*blackboard/i },
-      { key: 'behindTheScenes', num: '05', name: 'Behind the Scenes', helper: 'Compiler, memory allocation & V8 internals', regex: /(?:^|\n)(?:#+\s*)?(?:5[\.\:\s-]*)?behind\s*(?:the\s*)?scenes/i },
-      { key: 'practical', num: '06', name: "Let's Build Something!", helper: 'Production code example & implementation', regex: /(?:^|\n)(?:#+\s*)?(?:6[\.\:\s-]*)?let(?:'s)?\s*build(?:\s*something)?/i },
-      { key: 'developerThinking', num: '07', name: 'Think Like a Developer', helper: 'Trade-offs, performance & bugs to avoid', regex: /(?:^|\n)(?:#+\s*)?(?:7[\.\:\s-]*)?think\s*like\s*(?:a\s*)?developer/i },
-      { key: 'classroomChallenge', num: '08', name: 'Classroom Challenge', helper: 'Interactive live puzzle with solution/hint', regex: /(?:^|\n)(?:#+\s*)?(?:8[\.\:\s-]*)?classroom\s*challenge/i },
-      { key: 'developerKnowledge', num: '09', name: 'Real Developer Knowledge', helper: 'Industry framework & library usage', regex: /(?:^|\n)(?:#+\s*)?(?:9[\.\:\s-]*)?real\s*developer\s*knowledge/i },
-      { key: 'chapterMission', num: '10', name: 'Chapter Mission', helper: 'Milestone capstone assignment', regex: /(?:^|\n)(?:#+\s*)?(?:10[\.\:\s-]*)?chapter\s*mission/i }
+      { key: 'curiosity', num: '01', name: 'Curiosity', helper: 'Provocative question / hook', regex: /(?:^|\n)(?:#{1,3}\s*)?(?:(?:step|section|part)?\s*1[\.\:\s-]*)?(?:curiosity|hook|provocative\s*question)\b/i },
+      { key: 'conceptDiscovery', num: '02', name: 'Concept Discovery', helper: 'Definition & core theoretical concepts', regex: /(?:^|\n)(?:#{1,3}\s*)?(?:(?:step|section|part)?\s*2[\.\:\s-]*)?(?:concept(?:\s*discovery)?|core\s*theory)\b/i },
+      { key: 'realLifeConnection', num: '03', name: 'Real-Life Connection', helper: 'Real-world intuitive metaphor', regex: /(?:^|\n)(?:#{1,3}\s*)?(?:(?:step|section|part)?\s*3[\.\:\s-]*)?(?:real[\s-]*(?:life|world)|mental\s*model|analogy)\b/i },
+      { key: 'blackboard', num: '04', name: "Teacher's Blackboard", helper: 'Core laws, bulleted rules & diagrams', regex: /(?:^|\n)(?:#{1,3}\s*)?(?:(?:step|section|part)?\s*4[\.\:\s-]*)?(?:teacher(?:'s)?\s*)?(?:blackboard|chalkboard|architecture)\b/i },
+      { key: 'behindTheScenes', num: '05', name: 'Behind the Scenes', helper: 'Compiler, memory allocation & V8 internals', regex: /(?:^|\n)(?:#{1,3}\s*)?(?:(?:step|section|part)?\s*5[\.\:\s-]*)?(?:behind\s*(?:the\s*)?scenes|under\s*the\s*hood|memory\s*mechanics)\b/i },
+      { key: 'practical', num: '06', name: "Let's Build Something!", helper: 'Production code example & implementation', regex: /(?:^|\n)(?:#{1,3}\s*)?(?:(?:step|section|part)?\s*6[\.\:\s-]*)?(?:let(?:'s)?\s*build|practical|hands[\s-]*on)\b/i },
+      { key: 'developerThinking', num: '07', name: 'Think Like a Developer', helper: 'Trade-offs, performance & bugs to avoid', regex: /(?:^|\n)(?:#{1,3}\s*)?(?:(?:step|section|part)?\s*7[\.\:\s-]*)?(?:think\s*like\s*(?:a\s*)?(?:developer|senior|engineer)|developer\s*thinking)\b/i },
+      { key: 'classroomChallenge', num: '08', name: 'Classroom Challenge', helper: 'Interactive live puzzle with solution/hint', regex: /(?:^|\n)(?:#{1,3}\s*)?(?:(?:step|section|part)?\s*8[\.\:\s-]*)?(?:classroom\s*(?:live\s*)?challenge|live\s*challenge|bug\s*puzzle)\b/i },
+      { key: 'developerKnowledge', num: '09', name: 'Real Developer Knowledge', helper: 'Industry framework & library usage', regex: /(?:^|\n)(?:#+\s*)?(?:(?:step|section)?\s*9[\.\:\s-]*)?(?:real\s*(?:developer\s*)?(?:knowledge|insights)|developer\s*knowledge|production\s*insights)\b/i },
+      { key: 'chapterMission', num: '10', name: 'Chapter Mission', helper: 'Milestone capstone assignment', regex: /(?:^|\n)(?:#+\s*)?(?:(?:step|section)?\s*10[\.\:\s-]*)?(?:chapter\s*(?:capstone\s*)?mission|capstone\s*assignment|milestone\s*project)\b/i }
     ];
 
     let currentParsedData = {};
@@ -540,6 +540,114 @@ Remember to demonstrate the libuv diagram on the blackboard during the live lect
       reader.readAsText(file);
     }
 
+    // Client-side high-precision 10-section parser
+    function clientParseChatGPT(rawContent) {
+      if (!rawContent || typeof rawContent !== 'string') return null;
+
+      const lines = rawContent.split('\n');
+      const detectedMarkers = [];
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+
+        const isHeading = /^#{1,4}\s+/.test(line) || /^\d{1,2}[\.\:\s-][A-Za-z]/.test(line);
+        if (!isHeading) continue;
+
+        const cleanLine = line.replace(/^#{1,4}\s+/, '').trim();
+        if (/^\d+\.\d+/.test(cleanLine)) continue; // skip subheadings like 2.1, 2.2
+
+        let matchedDef = null;
+        for (const def of ATCODES_SECTIONS) {
+          if (def.regex.test(line) || def.regex.test(cleanLine)) {
+            matchedDef = def;
+            break;
+          }
+        }
+
+        if (matchedDef) {
+          detectedMarkers.push({
+            lineIndex: i,
+            def: matchedDef,
+            isRecognized: true,
+            headerText: line
+          });
+        } else if (
+          (/^#{1,2}\s+/.test(line) && !/^\d+\.\d+/.test(cleanLine)) ||
+          (/(?:unrecognized|appendix|bonus\s*section|extra\s*content)/i.test(line))
+        ) {
+          detectedMarkers.push({
+            lineIndex: i,
+            def: null,
+            isRecognized: false,
+            headerText: line
+          });
+        }
+      }
+
+      const primaryMap = new Map();
+      for (const m of detectedMarkers) {
+        if (m.isRecognized && !primaryMap.has(m.def.key)) {
+          primaryMap.set(m.def.key, m);
+        }
+      }
+
+      const anchors = Array.from(primaryMap.values()).sort((a, b) => a.lineIndex - b.lineIndex);
+      const sections = {};
+      ATCODES_SECTIONS.forEach(s => {
+        sections[s.key] = { title: s.name, text: '', code: '', language: 'javascript' };
+      });
+
+      if (anchors.length === 0) {
+        return { success: true, mappedCount: 0, sections, unmappedContent: rawContent.trim() };
+      }
+
+      const unmappedChunks = [];
+      if (anchors[0].lineIndex > 0) {
+        const pre = lines.slice(0, anchors[0].lineIndex).join('\n').trim();
+        if (pre) unmappedChunks.push(pre);
+      }
+
+      for (let idx = 0; idx < anchors.length; idx++) {
+        const curr = anchors[idx];
+        const next = anchors[idx + 1];
+        const startLine = curr.lineIndex + 1;
+        let endLine = next ? next.lineIndex : lines.length;
+
+        if (!next) {
+          const trailing = detectedMarkers.find(m => !m.isRecognized && m.lineIndex > curr.lineIndex);
+          if (trailing) {
+            endLine = trailing.lineIndex;
+            const trailText = lines.slice(trailing.lineIndex).join('\n').trim();
+            if (trailText) unmappedChunks.push(trailText);
+          }
+        }
+
+        const body = lines.slice(startLine, endLine).join('\n').trim();
+        let code = '';
+        const codeRegex = /```[a-zA-Z0-9_\-\+\#]*\s*\n([\s\S]*?)```/g;
+        let match;
+        while ((match = codeRegex.exec(body)) !== null) {
+          code = code ? code + '\n\n' + match[2].trim() : match[2].trim();
+        }
+        const cleanedText = body.replace(/```[a-zA-Z0-9_\-\+\#]*\s*\n[\s\S]*?```/g, '').trim();
+
+        sections[curr.def.key] = {
+          title: curr.def.name,
+          text: cleanedText || body,
+          code: code,
+          language: 'javascript'
+        };
+      }
+
+      return {
+        success: true,
+        mappedCount: primaryMap.size,
+        sections,
+        unmappedContent: unmappedChunks.join('\n\n---\n\n')
+      };
+    }
+
     // Parsing Engine: Calls backend preview or local regex
     async function parseAndMapContent() {
       const rawText = document.getElementById('raw-import-textarea').value.trim();
@@ -548,10 +656,10 @@ Remember to demonstrate the libuv diagram on the blackboard during the live lect
         return;
       }
 
-      // Detect topic title from `# Topic: ...` if present
-      const topicMatch = rawText.match(/^#+\s*(?:Topic:)?\s*([^\n]+)/i);
+      // Detect topic title from `# Topic: ...` or `# Chapter 1 --- ...` if present
+      const topicMatch = rawText.match(/^#+\s*(?:Topic:|Lesson:|Chapter\s*\d*[\.\:\s-]*\s*[-–—]?\s*)?([^\n]+)/i);
       if (topicMatch && isNewTopic) {
-        document.getElementById('import-new-topic-title').value = topicMatch[1].replace(/^Topic:\s*/i, '').trim();
+        document.getElementById('import-new-topic-title').value = topicMatch[1].replace(/^(?:Topic:|Lesson:)\s*/i, '').trim();
       }
 
       let parsed = null;
@@ -559,6 +667,11 @@ Remember to demonstrate the libuv diagram on the blackboard during the live lect
         parsed = await window.ATCodesAPI.previewImport(rawText);
       } catch (err) {
         console.warn('Backend parse error, falling back to client parser:', err);
+      }
+
+      // If backend failed or returned incomplete mapping (e.g. from older deploy cache), run client smart parser
+      if (!parsed || !parsed.success || parsed.mappedCount < 8 || (parsed.unmappedContent && parsed.unmappedContent.length > 5000)) {
+        parsed = clientParseChatGPT(rawText);
       }
 
       let mappedCount = 0;
