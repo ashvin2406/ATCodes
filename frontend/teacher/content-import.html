@@ -625,12 +625,12 @@ Remember to demonstrate the libuv diagram on the blackboard during the live lect
 
         const body = lines.slice(startLine, endLine).join('\n').trim();
         let code = '';
-        const codeRegex = /```[a-zA-Z0-9_\-\+\#]*\s*\n([\s\S]*?)```/g;
+        const codeRegex = /```\s*([a-zA-Z0-9_\-\+\#]*)[^\n]*\n([\s\S]*?)```/g;
         let match;
         while ((match = codeRegex.exec(body)) !== null) {
           code = code ? code + '\n\n' + match[2].trim() : match[2].trim();
         }
-        const cleanedText = body.replace(/```[a-zA-Z0-9_\-\+\#]*\s*\n[\s\S]*?```/g, '').trim();
+        const cleanedText = body.replace(/```\s*[a-zA-Z0-9_\-\+\#]*[^\n]*\n[\s\S]*?```/g, '').trim();
 
         sections[curr.def.key] = {
           title: curr.def.name,

@@ -91,15 +91,16 @@ const SECTION_DEFINITIONS = [
  * Extract code fences (```lang ... ```) from a text segment.
  */
 function extractCodeBlocks(text) {
-  const codeRegex = /```([a-zA-Z0-9_\-\+\#]*)\s*\n([\s\S]*?)```/g;
+  const codeRegex = /```\s*([a-zA-Z0-9_\-\+\#]*)[^\n]*\n([\s\S]*?)```/g;
   let code = '';
   let language = 'javascript';
   let cleanedText = text;
 
   let match;
   while ((match = codeRegex.exec(text)) !== null) {
+    const lang = (match[1] || 'javascript').toLowerCase().trim();
     if (!language || language === 'javascript') {
-      language = (match[1] || 'javascript').toLowerCase().trim();
+      language = lang;
     }
     if (code) {
       code += '\n\n' + match[2].trim();
@@ -109,7 +110,7 @@ function extractCodeBlocks(text) {
   }
 
   // Remove code blocks from cleaned text
-  cleanedText = cleanedText.replace(/```[a-zA-Z0-9_\-\+\#]*\s*\n[\s\S]*?```/g, '').trim();
+  cleanedText = cleanedText.replace(/```\s*[a-zA-Z0-9_\-\+\#]*[^\n]*\n[\s\S]*?```/g, '').trim();
 
   return { code, language, cleanedText };
 }
