@@ -77,6 +77,10 @@ window.ATCodesAPI = {
     return apiRequest(`/teacher/courses/${courseId}/chapters`, 'POST', chapterData);
   },
 
+  async createChaptersBulk(courseId, titles) {
+    return apiRequest(`/teacher/courses/${courseId}/chapters/bulk`, 'POST', { titles });
+  },
+
   async updateChapter(id, chapterData) {
     return apiRequest(`/teacher/chapters/${id}`, 'PATCH', chapterData);
   },
@@ -102,6 +106,10 @@ window.ATCodesAPI = {
 
   async createLesson(chapterId, lessonData) {
     return apiRequest(`/teacher/chapters/${chapterId}/lessons`, 'POST', lessonData);
+  },
+
+  async createLessonsBulk(chapterId, titles, estimatedDuration = '25 mins') {
+    return apiRequest(`/teacher/chapters/${chapterId}/lessons/bulk`, 'POST', { titles, estimatedDuration });
   },
 
   async updateLesson(id, lessonData) {

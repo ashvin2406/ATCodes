@@ -125,6 +125,69 @@ exports.createLesson = async (req, res, next) => {
 };
 
 /**
+ * POST /api/teacher/chapters/:chapterId/lessons/bulk
+ * Bulk add multiple topics/lessons to a chapter at once
+ */
+exports.createLessonsBulk = async (req, res, next) => {
+  try {
+    const { chapterId } = req.params;
+    const { titles, estimatedDuration, status } = req.body;
+
+    if (!Array.isArray(titles) || titles.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'titles must be a non-empty array of topic names'
+      });
+    }
+
+    const chapter = await Chapter.findById(chapterId);
+    if (!chapter) {
+      return res.status(404).json({
+        success: false,
+        message: 'Chapter not found'
+      });
+    }
+
+    const lastLesson = await Lesson.findOne({ chapterId }).sort({ order: -1 });
+    let currentOrder = lastLesson ? lastLesson.order + 1 : 0;
+
+    const createdLessons = [];
+    for (const rawTitle of titles) {
+      const cleanTitle = (typeof rawTitle === 'string' ? rawTitle : '').trim();
+      if (!cleanTitle) continue;
+
+      let baseSlug = slugify(cleanTitle);
+      let uniqueSlug = baseSlug;
+      let count = 1;
+      while (await Lesson.exists({ slug: uniqueSlug, chapterId })) {
+        uniqueSlug = `${baseSlug}-${count++}`;
+      }
+
+      const lesson = await Lesson.create({
+        title: cleanTitle,
+        slug: uniqueSlug,
+        chapterId: chapter._id,
+        courseId: chapter.courseId,
+        order: currentOrder++,
+        estimatedDuration: estimatedDuration || '25 mins',
+        status: status === 'published' ? 'published' : 'draft',
+        content: {}
+      });
+      createdLessons.push(lesson);
+    }
+
+    res.status(201).json({
+      success: true,
+      message: `${createdLessons.length} topics created successfully`,
+      count: createdLessons.length,
+      data: createdLessons
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * PATCH /api/teacher/lessons/:id
  * Update lesson title, duration, or structured content
  */

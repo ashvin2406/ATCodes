@@ -101,6 +101,10 @@
             <i data-lucide="folder-plus" class="w-4 h-4"></i>
             <span>Add Chapter</span>
           </button>
+          <button onclick="openBulkAddChaptersModal()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-all" title="Add multiple chapters at once">
+            <i data-lucide="layers" class="w-4 h-4"></i>
+            <span>Bulk Add Chapters</span>
+          </button>
           <button data-theme-toggle class="p-2.5 rounded-xl border border-slate-200 dark:border-dark-border text-slate-600 hover:bg-slate-100 dark:hover:bg-dark-card">
             <i data-lucide="moon" class="theme-toggle-icon w-4 h-4"></i>
           </button>
@@ -195,6 +199,84 @@
     </div>
   </div>
 
+  <!-- Bulk Add Chapters Modal -->
+  <div id="bulk-chapters-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border w-full max-w-lg rounded-3xl p-6 shadow-2xl relative">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-300 flex items-center justify-center font-bold">
+            <i data-lucide="layers" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Bulk Add Chapters</h3>
+            <p class="text-[11px] text-slate-500">Create multiple chapters in one click</p>
+          </div>
+        </div>
+        <button onclick="ATCodesUI.closeModal('bulk-chapters-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form id="bulk-chapters-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            Chapter Titles (One per line)
+          </label>
+          <p class="text-[11px] text-slate-400 mb-2">Paste or write chapter titles. Each line will create a separate chapter in order.</p>
+          <textarea id="bulk-chapters-input" rows="8" required placeholder="Chapter 1: Introduction to Backend Development&#10;Chapter 2: Getting Started with Node.js&#10;Chapter 3: Asynchronous Programming & Event Loop&#10;Chapter 4: Express.js Architecture & Routing&#10;Chapter 5: MongoDB & Data Persistence" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs font-mono focus:ring-2 focus:ring-purple-500 leading-relaxed"></textarea>
+        </div>
+        <div class="flex items-center justify-between pt-2">
+          <span id="bulk-chapters-counter" class="text-[11px] text-slate-400 font-medium">0 chapters to add</span>
+          <div class="flex items-center gap-3">
+            <button type="button" onclick="ATCodesUI.closeModal('bulk-chapters-modal')" class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold">Cancel</button>
+            <button type="submit" id="bulk-chapters-submit-btn" class="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-all flex items-center gap-1.5">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Add All Chapters</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bulk Add Topics Modal -->
+  <div id="bulk-topics-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border w-full max-w-lg rounded-3xl p-6 shadow-2xl relative">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-300 flex items-center justify-center font-bold">
+            <i data-lucide="list-plus" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Bulk Add Topics</h3>
+            <p id="bulk-topics-chapter-label" class="text-[11px] text-purple-600 dark:text-purple-300 font-semibold truncate max-w-xs">Chapter: ...</p>
+          </div>
+        </div>
+        <button onclick="ATCodesUI.closeModal('bulk-topics-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form id="bulk-topics-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            Topic Titles (One per line)
+          </label>
+          <p class="text-[11px] text-slate-400 mb-2">Paste or write lesson topics for this chapter. Each line creates a new draft lesson.</p>
+          <textarea id="bulk-topics-input" rows="8" required placeholder="1. What is Backend Development?&#10;2. Frontend vs Backend Architecture&#10;3. Client-Server Request-Response Lifecycle&#10;4. HTTP Methods, Status Codes & Headers&#10;5. Setting Up Node Server" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs font-mono focus:ring-2 focus:ring-purple-500 leading-relaxed"></textarea>
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">Default Estimated Duration</label>
+          <input type="text" id="bulk-topics-dur" value="25m" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-surface text-xs">
+        </div>
+        <div class="flex items-center justify-between pt-2">
+          <span id="bulk-topics-counter" class="text-[11px] text-slate-400 font-medium">0 topics to add</span>
+          <div class="flex items-center gap-3">
+            <button type="button" onclick="ATCodesUI.closeModal('bulk-topics-modal')" class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold">Cancel</button>
+            <button type="submit" id="bulk-topics-submit-btn" class="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-all flex items-center gap-1.5">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Add All Topics</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="../js/mock-data.js"></script>
   <script src="../js/common.js"></script>
@@ -255,6 +337,97 @@
           await loadCourseCurriculum();
         } catch (err) {
           ATCodesUI.showToast(err.message || 'Failed to add topic', 'error');
+        }
+      });
+
+      // Bulk Add Chapters Input Counter
+      const bulkChInput = document.getElementById('bulk-chapters-input');
+      const bulkChCounter = document.getElementById('bulk-chapters-counter');
+      if (bulkChInput && bulkChCounter) {
+        bulkChInput.addEventListener('input', () => {
+          const lines = bulkChInput.value.split('\n').map(l => l.trim()).filter(Boolean);
+          bulkChCounter.textContent = `${lines.length} chapter${lines.length === 1 ? '' : 's'} to add`;
+        });
+      }
+
+      // Bulk Add Chapters Form Submit
+      document.getElementById('bulk-chapters-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!activeCourse) return;
+        const raw = bulkChInput.value;
+        const titles = raw.split('\n')
+          .map(l => l.trim())
+          .filter(l => l.length > 0);
+
+        if (titles.length === 0) {
+          ATCodesUI.showToast('Please enter at least one chapter title', 'warning');
+          return;
+        }
+
+        const submitBtn = document.getElementById('bulk-chapters-submit-btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> Creating...`;
+
+        try {
+          const courseId = activeCourse._id || activeCourse.id;
+          await window.ATCodesAPI.createChaptersBulk(courseId, titles);
+          ATCodesUI.closeModal('bulk-chapters-modal');
+          bulkChInput.value = '';
+          bulkChCounter.textContent = '0 chapters to add';
+          ATCodesUI.showToast(`Successfully added ${titles.length} chapters!`, 'success');
+          await loadCourseCurriculum();
+        } catch (err) {
+          ATCodesUI.showToast(err.message || 'Failed to bulk add chapters', 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      });
+
+      // Bulk Add Topics Input Counter
+      const bulkTopInput = document.getElementById('bulk-topics-input');
+      const bulkTopCounter = document.getElementById('bulk-topics-counter');
+      if (bulkTopInput && bulkTopCounter) {
+        bulkTopInput.addEventListener('input', () => {
+          const lines = bulkTopInput.value.split('\n').map(l => l.trim()).filter(Boolean);
+          bulkTopCounter.textContent = `${lines.length} topic${lines.length === 1 ? '' : 's'} to add`;
+        });
+      }
+
+      // Bulk Add Topics Form Submit
+      document.getElementById('bulk-topics-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!targetChapterId) return;
+        const raw = bulkTopInput.value;
+        const dur = document.getElementById('bulk-topics-dur').value.trim() || '25m';
+        const titles = raw.split('\n')
+          .map(l => l.trim())
+          .filter(l => l.length > 0);
+
+        if (titles.length === 0) {
+          ATCodesUI.showToast('Please enter at least one topic title', 'warning');
+          return;
+        }
+
+        const submitBtn = document.getElementById('bulk-topics-submit-btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> Creating...`;
+
+        try {
+          await window.ATCodesAPI.createLessonsBulk(targetChapterId, titles, dur);
+          ATCodesUI.closeModal('bulk-topics-modal');
+          bulkTopInput.value = '';
+          bulkTopCounter.textContent = '0 topics to add';
+          ATCodesUI.showToast(`Successfully added ${titles.length} topics!`, 'success');
+          targetChapterId = null;
+          await loadCourseCurriculum();
+        } catch (err) {
+          ATCodesUI.showToast(err.message || 'Failed to bulk add topics', 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
         }
       });
     });
@@ -345,6 +518,10 @@
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                 <span>Add Topic</span>
               </button>
+              <button onclick="promptBulkAddTopics('${chId}', '${escapeHtml(ch.title)}')" class="px-2.5 py-1 rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-950/60 dark:text-purple-300 text-xs font-semibold hover:bg-purple-600 hover:text-white transition-colors flex items-center gap-1" title="Bulk Add Topics to this Chapter">
+                <i data-lucide="list-plus" class="w-3.5 h-3.5"></i>
+                <span>Bulk Topics</span>
+              </button>
               <button onclick="deleteChapterAction('${chId}')" class="p-1.5 text-slate-400 hover:text-rose-600 transition-colors" title="Delete Chapter">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
@@ -392,15 +569,44 @@
       topicList.classList.toggle('hidden');
     }
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function openAddChapterModal() {
       document.getElementById('new-chapter-title').value = '';
       ATCodesUI.openModal('add-chapter-modal');
+    }
+
+    function openBulkAddChaptersModal() {
+      const input = document.getElementById('bulk-chapters-input');
+      const counter = document.getElementById('bulk-chapters-counter');
+      if (input) input.value = '';
+      if (counter) counter.textContent = '0 chapters to add';
+      ATCodesUI.openModal('bulk-chapters-modal');
     }
 
     function promptAddTopic(chId) {
       targetChapterId = chId;
       document.getElementById('new-topic-title').value = '';
       ATCodesUI.openModal('add-topic-modal');
+    }
+
+    function promptBulkAddTopics(chId, chTitle) {
+      targetChapterId = chId;
+      const input = document.getElementById('bulk-topics-input');
+      const counter = document.getElementById('bulk-topics-counter');
+      const label = document.getElementById('bulk-topics-chapter-label');
+      if (input) input.value = '';
+      if (counter) counter.textContent = '0 topics to add';
+      if (label) label.textContent = `Chapter: ${chTitle || 'Selected Chapter'}`;
+      ATCodesUI.openModal('bulk-topics-modal');
     }
 
     async function deleteChapterAction(chId) {

@@ -88,6 +88,59 @@ exports.createChapter = async (req, res, next) => {
 };
 
 /**
+ * POST /api/teacher/courses/:courseId/chapters/bulk
+ * Bulk add multiple chapters to a course at once
+ */
+exports.createChaptersBulk = async (req, res, next) => {
+  try {
+    const { courseId } = req.params;
+    const { titles } = req.body;
+
+    if (!Array.isArray(titles) || titles.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'titles must be a non-empty array of chapter names'
+      });
+    }
+
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Course not found'
+      });
+    }
+
+    const lastChapter = await Chapter.findOne({ courseId }).sort({ order: -1 });
+    let currentOrder = lastChapter ? lastChapter.order + 1 : 0;
+
+    const createdChapters = [];
+    for (const rawTitle of titles) {
+      const cleanTitle = (typeof rawTitle === 'string' ? rawTitle : '').trim();
+      if (!cleanTitle) continue;
+
+      const chapter = await Chapter.create({
+        title: cleanTitle,
+        description: '',
+        courseId,
+        order: currentOrder++,
+        status: 'published'
+      });
+      createdChapters.push(chapter);
+    }
+
+    res.status(201).json({
+      success: true,
+      message: `${createdChapters.length} chapters created successfully`,
+      count: createdChapters.length,
+      data: createdChapters
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * PATCH /api/teacher/chapters/:id
  */
 exports.updateChapter = async (req, res, next) => {

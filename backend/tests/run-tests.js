@@ -327,6 +327,17 @@ async function runTests() {
     );
     assert(reorderChRes.status === 200, 'Chapter reorder endpoint returns HTTP 200');
 
+    console.log('\n--- 16b. Testing Bulk Chapter Creation ---');
+    const bulkChRes = await makeRequest(
+      'POST',
+      `/api/teacher/courses/${createdCourseId}/chapters/bulk`,
+      { titles: ['Bulk Chapter A: Foundations', 'Bulk Chapter B: Advanced Architecture'] },
+      teacherCookie
+    );
+    assert(bulkChRes.status === 201, 'POST /api/teacher/courses/:id/chapters/bulk returns HTTP 201');
+    assert(bulkChRes.body.count === 2, '2 chapters created in bulk');
+    assert(bulkChRes.body.data[0].title === 'Bulk Chapter A: Foundations', 'First bulk chapter title verified');
+
     // ==========================================
     // Phase 3: LESSON MANAGEMENT & 10 SECTIONS
     // ==========================================
@@ -406,6 +417,21 @@ async function runTests() {
     assert(getLessonRes.status === 200, 'GET /api/teacher/lessons/:id returns HTTP 200');
     assert(getLessonRes.body.data.content.blackboard.bullets.length === 3, 'All blackboard bullet points preserved');
     assert(getLessonRes.body.data.content.practical.language === 'rust', 'Code block language preserved');
+
+    console.log('\n--- 18b. Testing Bulk Lesson/Topic Creation ---');
+    const bulkLessonRes = await makeRequest(
+      'POST',
+      `/api/teacher/chapters/${createdChapterId}/lessons/bulk`,
+      {
+        titles: ['Topic 1: Lifetimes & Borrow Checker', 'Topic 2: Smart Pointers (Rc, Arc, RefCell)'],
+        estimatedDuration: '40 mins'
+      },
+      teacherCookie
+    );
+    assert(bulkLessonRes.status === 201, 'POST /api/teacher/chapters/:id/lessons/bulk returns HTTP 201');
+    assert(bulkLessonRes.body.count === 2, '2 topics created in bulk');
+    assert(bulkLessonRes.body.data[0].estimatedDuration === '40 mins', 'Bulk lesson duration set');
+    assert(bulkLessonRes.body.data[0].status === 'draft', 'Bulk lessons default to draft');
 
     console.log('\n--- 19. Testing Lesson Publishing State Toggle ---');
     const publishRes = await makeRequest(

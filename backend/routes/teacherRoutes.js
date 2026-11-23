@@ -41,6 +41,7 @@ router.delete('/courses/:id', courseController.deleteCourse);
 // --- Chapter Management Endpoints ---
 router.get('/courses/:courseId/chapters', chapterController.getChaptersByCourse);
 router.post('/courses/:courseId/chapters', chapterController.createChapter);
+router.post('/courses/:courseId/chapters/bulk', chapterController.createChaptersBulk);
 router.patch('/chapters/reorder', chapterController.reorderChapters);
 router.patch('/chapters/:id', chapterController.updateChapter);
 router.delete('/chapters/:id', chapterController.deleteChapter);
@@ -48,6 +49,7 @@ router.delete('/chapters/:id', chapterController.deleteChapter);
 // --- Lesson & Content Management Endpoints ---
 router.get('/chapters/:chapterId/lessons', lessonController.getLessonsByChapter);
 router.post('/chapters/:chapterId/lessons', lessonController.createLesson);
+router.post('/chapters/:chapterId/lessons/bulk', lessonController.createLessonsBulk);
 router.post('/lessons/import-preview', lessonController.previewImport);
 router.get('/lessons/:id', lessonController.getLessonById);
 router.patch('/lessons/:id', lessonController.updateLesson);
