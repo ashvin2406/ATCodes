@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
 // Load .env from backend folder
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
-const corsRaw = process.env.CORS_ORIGINS || process.env.FRONTEND_ORIGIN || process.env.FRONTEND_URL || 'http://localhost:5000,http://127.0.0.1:5500,http://localhost:3000,http://127.0.0.1:3000';
+const corsRaw = process.env.CORS_ORIGINS || process.env.FRONTEND_ORIGIN || process.env.FRONTEND_URL || 'http://localhost:5000,http://127.0.0.1:5500,http://localhost:3000,http://127.0.0.1:3000,https://atcodes.onrender.com';
 const parsedOrigins = corsRaw
   .split(',')
   .map(o => o.trim())

@@ -34,10 +34,10 @@ app.use(
       // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
       if (!origin) return callback(null, true);
 
-      // Check if origin matches configured allowed origins
+      // Check if origin matches configured allowed origins or trusted deploy platforms
       const isAllowed = config.frontendOrigins.some((allowed) => {
         return origin === allowed || allowed === '*';
-      });
+      }) || origin.endsWith('.onrender.com') || origin.endsWith('.vercel.app') || origin.includes('localhost') || origin.includes('127.0.0.1');
 
       if (isAllowed || config.nodeEnv === 'development' || config.nodeEnv === 'test') {
         callback(null, true);
