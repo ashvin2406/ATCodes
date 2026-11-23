@@ -90,29 +90,62 @@ const SECTION_DEFINITIONS = [
 /**
  * Extract code fences (```lang ... ```) from a text segment.
  */
+/**
+ * Extract code fences (```lang ... ```) line-by-line.
+ * Prevents regex inversion or misparsing from inline backticks and space-padded tags.
+ */
 function extractCodeBlocks(text) {
-  const codeRegex = /```\s*([a-zA-Z0-9_\-\+\#]*)[^\n]*\n([\s\S]*?)```/g;
-  let code = '';
-  let language = 'javascript';
-  let cleanedText = text;
+  const lines = text.split('\n');
+  const codeBlocks = [];
+  const proseLines = [];
+  let inCode = false;
+  let currentCode = [];
+  let currentLang = 'javascript';
+  let primaryLang = 'javascript';
 
-  let match;
-  while ((match = codeRegex.exec(text)) !== null) {
-    const lang = (match[1] || 'javascript').toLowerCase().trim();
-    if (!language || language === 'javascript') {
-      language = lang;
-    }
-    if (code) {
-      code += '\n\n' + match[2].trim();
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith('```')) {
+      if (!inCode) {
+        // Start of code block
+        inCode = true;
+        currentCode = [];
+        const lang = trimmed.replace(/^```\s*/, '').trim().toLowerCase();
+        currentLang = lang || 'javascript';
+        if (lang && lang !== 'text' && lang !== 'bash') {
+          primaryLang = lang;
+        }
+      } else {
+        // End of code block
+        inCode = false;
+        codeBlocks.push({
+          lang: currentLang,
+          code: currentCode.join('\n')
+        });
+      }
+    } else if (inCode) {
+      currentCode.push(line);
     } else {
-      code = match[2].trim();
+      proseLines.push(line);
     }
   }
 
-  // Remove code blocks from cleaned text
-  cleanedText = cleanedText.replace(/```\s*[a-zA-Z0-9_\-\+\#]*[^\n]*\n[\s\S]*?```/g, '').trim();
+  // Find the primary/best code block (prefer actual programming languages like js/json/sql/py over simple terminal commands)
+  let bestCode = '';
+  const progBlocks = codeBlocks.filter(b => b.lang !== 'bash' && b.lang !== 'text' && b.code.trim().length > 10);
+  if (progBlocks.length > 0) {
+    bestCode = progBlocks.map(b => b.code.trim()).join('\n\n');
+  } else if (codeBlocks.length > 0) {
+    bestCode = codeBlocks.map(b => b.code.trim()).join('\n\n');
+  }
 
-  return { code, language, cleanedText };
+  return {
+    code: bestCode,
+    language: primaryLang,
+    cleanedText: proseLines.join('\n').trim()
+  };
 }
 
 /**

@@ -624,19 +624,53 @@ Remember to demonstrate the libuv diagram on the blackboard during the live lect
         }
 
         const body = lines.slice(startLine, endLine).join('\n').trim();
-        let code = '';
-        const codeRegex = /```\s*([a-zA-Z0-9_\-\+\#]*)[^\n]*\n([\s\S]*?)```/g;
-        let match;
-        while ((match = codeRegex.exec(body)) !== null) {
-          code = code ? code + '\n\n' + match[2].trim() : match[2].trim();
+        
+        // Extract code fences line-by-line to avoid inversion
+        const bodyLines = body.split('\n');
+        const codeBlocks = [];
+        const proseLines = [];
+        let inCode = false;
+        let currentCode = [];
+        let currentLang = 'javascript';
+        let primaryLang = 'javascript';
+
+        for (let bIdx = 0; bIdx < bodyLines.length; bIdx++) {
+          const bLine = bodyLines[bIdx];
+          const bTrim = bLine.trim();
+
+          if (bTrim.startsWith('```')) {
+            if (!inCode) {
+              inCode = true;
+              currentCode = [];
+              const lang = bTrim.replace(/^```\s*/, '').trim().toLowerCase();
+              currentLang = lang || 'javascript';
+              if (lang && lang !== 'text' && lang !== 'bash') {
+                primaryLang = lang;
+              }
+            } else {
+              inCode = false;
+              codeBlocks.push({ lang: currentLang, code: currentCode.join('\n') });
+            }
+          } else if (inCode) {
+            currentCode.push(bLine);
+          } else {
+            proseLines.push(bLine);
+          }
         }
-        const cleanedText = body.replace(/```\s*[a-zA-Z0-9_\-\+\#]*[^\n]*\n[\s\S]*?```/g, '').trim();
+
+        let bestCode = '';
+        const progBlocks = codeBlocks.filter(b => b.lang !== 'bash' && b.lang !== 'text' && b.code.trim().length > 10);
+        if (progBlocks.length > 0) {
+          bestCode = progBlocks.map(b => b.code.trim()).join('\n\n');
+        } else if (codeBlocks.length > 0) {
+          bestCode = codeBlocks.map(b => b.code.trim()).join('\n\n');
+        }
 
         sections[curr.def.key] = {
           title: curr.def.name,
-          text: cleanedText || body,
-          code: code,
-          language: 'javascript'
+          text: proseLines.join('\n').trim(),
+          code: bestCode,
+          language: primaryLang
         };
       }
 
